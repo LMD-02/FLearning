@@ -56,9 +56,9 @@
                     <li>
                         <a href="{{route('admin.subject.chapter')}}">Quản lý chương</a>
                     </li>
-                    <li>
-                        <a href="{{route('admin.subject.session')}}">Quản lý bài học</a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a href="{{route('admin.subject.session')}}">Quản lý bài học</a>--}}
+{{--                    </li>--}}
                     <li>
                         <a href="{{route('admin.subject.video')}}">Quản lý video</a>
                     </li>
@@ -72,7 +72,7 @@
                 </a>
                 <ul class="side-nav-second-level mm-collapse " aria-expanded="false" style="">
                     <li>
-                        <a href="">Quản lý bài thi</a>
+                        <a href="{{route('admin.exam')}}">Quản lý bài thi</a>
                     </li>
                     <li>
                         <a href="">Thống kê</a>

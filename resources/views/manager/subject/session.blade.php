@@ -8,20 +8,17 @@
             <div class="card">
                 <div class="card-header ">
                     <form id="form-filter">
-                        <div class="form-group d-flex">
-                            <div class="input-group mb-3 w-15 mr-3">
-                                <label for="select-course">Tìm kiếm</label>
-                                <select class="custom-select select-filter-course" id="select-course" name="course">
-                                    <option selected>All...</option>
-                                    <option>
-                                        Cơ sở dữ liệu
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="float-right col">
-                                <a href="" id="btn-create-classe" class="btn btn-success float-right">
+                        <div class="form-group d-flex align-items-start">
+                            <div class="float-right col w-25">
+                                <a href="{{route('admin.session.create',['id' => $chapter->id])}}" id="btn-create-classe" class="btn btn-success float-right">
                                     Tạo buổi học
                                 </a>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3 w-35 mr-3">
+                            <div class="font-weight-bold">
+                                Môn học: {{$chapter->subjectname}} <br>
+                                Chương học: {{$chapter->name}}
                             </div>
                         </div>
                     </form>
@@ -31,8 +28,6 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Môn học</th>
-                            <th>Tên chương</th>
                             <th>Buổi học</th>
                             <th style="width:10%">#</th>
                             <th style="width:10%">#</th>
@@ -40,21 +35,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 1; $i < 10 ; $i++)
+                        @foreach($data as $key=>$item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
-                                        {{$i }}
+                                        {{$key+1 }}
                                     </a>
                                 </td>
-                                <td>
-                                    Cơ sở dữ liệu
-                                </td>
-                                <td >
-                                    Chương {{$i}}: Giới thiệu về cơ sở dữ liệu
-                                </td>
                                 <td style="color:green">
-                                    Bài {{$i}}: Cơ sở dữ liệu cơ bản {{$i}}
+                                    {{$item->name}}
                                 </td>
                                 <td>
                                     <a href='' id="btn-edit-course" class="btn btn-info">
@@ -62,26 +51,23 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-primary">
+                                    <a href='{{route('admin.session.edit',['id' => $item->id])}}' id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                    <form method="post" action=''>
-                                        @csrf
-                                        @method("DELETE")
-                                        <button type="submit" name="delete" class="btn btn-danger">
-                                            <i>Xóa</i>
-                                        </button>
-                                    </form>
+                                    <a href='' id="" class="btn btn-danger">
+                                        <i>Xóa </i>
+                                    </a>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
+
                         </tbody>
                     </table>
-                    {{--                    <nav>--}}
-                    {{--                        <ul class="pagination pagination-rounded mb-0">--}}
-                    {{--                            {{ $data->links() }}--}}
-                    {{--                        </ul>--}}
-                    {{--                    </nav>--}}
+                                        <nav>
+                                            <ul class="pagination pagination-rounded mb-0">
+                                                {{ $data->links() }}
+                                            </ul>
+                                        </nav>
                 </div>
             </div>
         </div>

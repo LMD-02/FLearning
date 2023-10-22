@@ -20,15 +20,15 @@
                 <li class="nav-item mx-lg-1">
                     <a class="nav-link active" href="">Home</a>
                 </li>
-                <li class="nav-item mx-lg-1">
-                    <a class="nav-link " href="">Lập trình java</a>
-                </li>
-                <li class="nav-item mx-lg-1">
-                    <a class="nav-link" href="">Cơ sở dữ liệu</a>
-                </li>
-                <li class="nav-item mx-lg-1">
-                    <a class="nav-link" href="">Công nghệ .Net</a>
-                </li>
+                @foreach($subject as $key => $value)
+                    @if($key >=5 )
+                        @break
+                    @endif
+                    <li class="nav-item mx-lg-1">
+                        <a class="nav-link" href="{{route('student.subject',['id' => $value->id])}}">{{$value->name}}</a>
+                    </li>
+                @endforeach
+
 
             </ul>
 

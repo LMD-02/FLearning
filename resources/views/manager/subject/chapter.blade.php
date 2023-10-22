@@ -19,7 +19,7 @@
                                 </select>
                             </div>
                             <div class="float-right col">
-                                <a href="" id="btn-create-classe" class="btn btn-success float-right">
+                                <a href="{{route('admin.chapter.create')}}" id="btn-create-classe" class="btn btn-success float-right">
                                     Tạo chương học
                                 </a>
                             </div>
@@ -39,44 +39,41 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 1; $i < 10 ; $i++)
+                        @foreach($data as $key => $item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
-                                        {{$i }}
+                                        {{$key +1 }}
                                     </a>
                                 </td>
                                 <td>
-                                    Cơ sở dữ liệu
+                                    {{$item->name}}
                                 </td>
                                 <td style="color:green">
-                                    Chương {{$i}}: Giới thiệu về cơ sở dữ liệu
+                                    {{$item->description}}
                                 </td>
                                 <td >
-                                    {{10 - $i}} bài học
+                                    {{$item->count}} bài học
                                 </td>
 
                                 <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-primary">
+                                    <a href="{{route('admin.subject.session',['id'=> $item->id])}}" class="btn btn-info">Quản lý</a>
+                                    <a href='{{route('admin.chapter.edit',['id'=> $item->id])}}' id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                    <form method="post" action=''>
-                                        @csrf
-                                        @method("DELETE")
-                                        <button type="submit" name="delete" class="btn btn-danger">
-                                            <i>Xóa</i>
-                                        </button>
-                                    </form>
+                                    <a href='{{route('admin.chapter.delete',['id'=> $item->id])}}' id="btn-edit-course" class="btn btn-danger">
+                                        <i>Xóa </i>
+                                    </a>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                         </tbody>
                     </table>
-                    {{--                    <nav>--}}
-                    {{--                        <ul class="pagination pagination-rounded mb-0">--}}
-                    {{--                            {{ $data->links() }}--}}
-                    {{--                        </ul>--}}
-                    {{--                    </nav>--}}
+                                        <nav>
+                                            <ul class="pagination pagination-rounded mb-0">
+                                                {{ $data->links() }}
+                                            </ul>
+                                        </nav>
                 </div>
             </div>
         </div>

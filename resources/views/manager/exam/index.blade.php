@@ -1,28 +1,28 @@
 @extends('layout2.master')
 @push('css2')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 @endpush
 @section('content2')
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header " >
+                <div class="card-header ">
                     <form id="form-filter">
                         <div class="form-group d-flex">
                             <div class="input-group mb-3 w-15 mr-3">
                                 <label for="select-course">Tìm kiếm</label>
-                                <select class="custom-select select-filter-course" id="select-course" name="course" >
+                                <select class="custom-select select-filter-course" id="select-course" name="course">
                                     <option selected>All...</option>
                                     <option>
-                                        Nguyễn Văn A
+                                        Cơ sở dữ liệu
                                     </option>
                                 </select>
                             </div>
-                                                        <div class="float-right col">
-                                                            <a href="{{route('admin.user.create')}}" id="btn-create-classe" class="btn btn-success float-right">
-                                                                Tạo người dùng
-                                                            </a>
-                                                        </div>
+                            <div class="float-right col">
+                                <a href="{{route('admin.exam.create')}}" id="btn-create-classe" class="btn btn-success float-right">
+                                    Tạo bài test
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -31,43 +31,31 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Thông tin người dùng</th>
-                            <th>Email</th>
-                            <th>Ngày tạo</th>
-                            <th style="width:10%">Sửa</th>
-                            <th style="width:10%">Xóa</th>
+                            <th>Tên bài thi</th>
+                            <th>Số câu hỏi</th>
+                            <th style="width:10%">#</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($data as $key => $item)
+                        @foreach($exams as $key => $item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
                                         {{$key+1 }}
                                     </a>
                                 </td>
-                                <td style="">
-                                    Tên:
-                                    <span style="color:black">{{$item->name}}}</span>
-                                    <br>
-                                    Ngày sinh:
-                                    <span style="color:black">{{$item->birthday}}}</span>
-                                    <br>
-                                    <span >Địa chỉ:</span>
-                                    <span style="color:black">{{$item->address}}}</span>
-                                </td>
                                 <td style="color:green">
-                                    {{$item->email}}}
+                                    {{\GuzzleHttp\json_decode($item->details,true)['title']}}
                                 </td>
+                                <td >
+                                    {{\GuzzleHttp\json_decode($item->details,true)['count']}} câu
+                                </td>
+
                                 <td>
-                                    {{$item->created_at}}
-                                <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-primary">
+                                    <a href="{{route('admin.exam.edit',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                </td>
-                                <td>
                                     <form method="post" action=''>
                                         @csrf
                                         @method("DELETE")
@@ -76,15 +64,13 @@
                                         </button>
                                     </form>
                                 </td>
-
                             </tr>
                         @endforeach
-
                         </tbody>
                     </table>
                                         <nav>
                                             <ul class="pagination pagination-rounded mb-0">
-                                                {{ $data->links() }}
+                                                {{ $exams->links() }}
                                             </ul>
                                         </nav>
                 </div>

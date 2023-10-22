@@ -19,7 +19,7 @@
                                 </select>
                             </div>
                                                         <div class="float-right col">
-                                                            <a href="" id="btn-create-classe" class="btn btn-success float-right">
+                                                            <a href="{{route('admin.subject.create')}}" id="btn-create-classe" class="btn btn-success float-right">
                                                                 Tạo môn học
                                                             </a>
                                                         </div>
@@ -40,50 +40,58 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 1; $i < 10 ; $i++)
+                        @foreach($data as $key => $item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
-                                        {{$i }}
+                                        {{$key+1 }}
                                     </a>
                                 </td>
                                 <td style="">
-                                    <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white" class="img-fluid shadow-sm rounded">
+                                    <img src="{{asset('images/upload/'.$item->image)}}" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white" class="img-fluid shadow-sm rounded">
                                 </td>
                                 <td style="color:green">
-                                    Cơ sở dữ liệu
+                                    {{$item->name}}
                                 </td>
                                 <td>
+                                    @if ($item->status == 0)
                                     Đang hiển thị
+                                    @else
+                                        Đang ẩn
+                                    @endif
                                 </td>
                                 <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-info">
-                                        Ẩn môn học
-                                    </a>
+                                    @if ($item->status == 0)
+                                        <a href='{{route('admin.subject.updateStatus',['id'=>$item->id,'status' => '-1'])}}' id="btn-edit-course" class="btn btn-info">
+                                            Ẩn môn học
+                                        </a>
+                                    @else
+                                        <a href='{{route('admin.subject.updateStatus',['id'=>$item->id,'status' => '0'])}}' id="btn-edit-course" class="btn btn-info">
+                                            Hiển thị môn học
+                                        </a>
+                                    @endif
+
                                 </td>
                                 <td>
 
-                                    <a href='' id="btn-edit-course" class="btn btn-primary">
+                                    <a href="{{route('admin.subject.edit',["id"=>$item->id])}}" id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                    <form method="post" action=''>
-                                        @csrf
-                                        @method("DELETE")
-                                        <button type="submit" name="delete" class="btn btn-danger">
+                                    <a class="btn btn-danger" href="{{route('admin.subject.delete',["id"=>$item->id])}}" >
                                             <i>Xóa</i>
-                                        </button>
-                                    </form>
+                                    </a>
                                 </td>
 
                             </tr>
-                        @endfor
+                        @endforeach
+
                         </tbody>
                     </table>
-                    {{--                    <nav>--}}
-                    {{--                        <ul class="pagination pagination-rounded mb-0">--}}
-                    {{--                            {{ $data->links() }}--}}
-                    {{--                        </ul>--}}
-                    {{--                    </nav>--}}
+                                        <nav>
+                                            <ul class="pagination pagination-rounded mb-0">
+                                                {{ $data->links() }}
+                                            </ul>
+                                        </nav>
                 </div>
             </div>
         </div>
