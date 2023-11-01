@@ -42,6 +42,14 @@
 <script src="{{asset('/js/helper.js')}}"></script>
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
+<script>
+    $('#profile-user-login').on('click',function () {
+        if($('#drop-down-user').hasClass('show'))
+            $('#drop-down-user').removeClass('show');
+        else
+            $('#drop-down-user').addClass('show');
+    });
+</script>
 @stack('js')
 
 </body>

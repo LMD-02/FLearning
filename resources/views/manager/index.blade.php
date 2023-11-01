@@ -11,7 +11,7 @@
                                 <i class="mdi mdi-account-multiple widget-icon bg-success-lighten text-success"></i>
                             </div>
                             <h5 class="text-muted fw-normal mt-2" title="Number of Customers">Số lượng người dùng</h5>
-                            <h3 class="mt-1 mb-3">124 người</h3>
+                            <h3 class="mt-1 mb-3">{{$userCount}} người</h3>
 
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -24,7 +24,7 @@
                                 <i class="mdi mdi-ab-testing widget-icon bg-danger-lighten text-danger"></i>
                             </div>
                             <h5 class="text-muted fw-normal mt-2" title="Number of Orders">Số bài Test</h5>
-                            <h3 class="mt-2 mb-3">6 bài test</h3>
+                            <h3 class="mt-2 mb-3">{{$test}} bài test</h3>
 
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -39,7 +39,7 @@
                                 <i class="mdi mdi-book-open widget-icon bg-info-lighten text-info"></i>
                             </div>
                             <h5 class="text-muted fw-normal mt-2" title="Average Revenue">Số môn học giảng dậy</h5>
-                            <h3 class="mt-2 mb-3">7 môn</h3>
+                            <h3 class="mt-2 mb-3">{{$subject}} môn</h3>
 
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -52,7 +52,7 @@
                                 <i class="mdi mdi-video-vintage widget-icon bg-warning-lighten text-warning"></i>
                             </div>
                             <h5 class="text-muted fw-normal mt-2" title="Growth">Số video bài giảng</h5>
-                            <h3 class="mt-2 mb-3">9 video</h3>
+                            <h3 class="mt-2 mb-3">{{$video}} video</h3>
 
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
@@ -72,26 +72,28 @@
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-hover mb-0">
                             <tbody>
-                            @for($i = 1; $i < 5 ; $i++)
+                            @foreach($point as $key => $item)
                                 <tr>
+
                                     <td>
-                                        <h5 class="font-14 my-1 fw-normal">Nguyễn Văn A</h5>
-                                        <span class="text-muted font-13">{{10-$i}} tháng 10 2023</span>
+                                        <h5 class="font-14 my-1 fw-normal">{{$item->user->name}}</h5>
+                                        <span class="text-muted font-13"> Người dùng</span>
                                     </td>
                                     <td>
-                                        <h5 class="font-14 my-1 fw-normal">taikhoan{{$i}}@gmail.com</h5>
+                                        <h5 class="font-14 my-1 fw-normal">{{$item->user->email}}</h5>
                                         <span class="text-muted font-13">Email</span>
                                     </td>
                                     <td>
-                                        <h5 class="font-14 my-1 fw-normal">Cơ sở dữ liệu {{$i}}</h5>
+                                        <h5 class="font-14 my-1 fw-normal">{{$item->exam['title']}}</h5>
                                         <span class="text-muted font-13">Bài test</span>
                                     </td>
                                     <td>
-                                        <h5 class="font-14 my-1 fw-normal">{{5+$i}}.{{$i}} / 10</h5>
+                                        <h5 class="font-14 my-1 fw-normal">{{$item->point}} / 10</h5>
                                         <span class="text-muted font-13">Số điểm</span>
                                     </td>
                                 </tr>
-                            @endfor
+                            @endforeach
+
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->

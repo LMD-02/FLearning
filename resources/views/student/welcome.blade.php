@@ -156,7 +156,11 @@
                             <h3>Tính năng <span class="text-danger">Yêu thích</span> bài học</h3>
                             <p class="text-muted mt-2">Giúp cho bạn lưu các bài học yêu thích để xem lại
                             </p>
-                            <button class="btn btn-danger mt-3">Xem ngay</button>
+                            @if(auth()->user() == null)
+                                <a href="{{route('login')}}" class="btn btn-danger mt-3">Xem ngay</a>
+                            @else
+                            <a href="{{route('student.favorites')}}" class="btn btn-danger mt-3">Xem ngay</a>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -15,12 +17,58 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+
+Route::post('/registerCheck', [AuthController::class, 'registerCheck'])->name('registerCheck');
+Route::post('/login/check', [AuthController::class, 'authCheck'])->name('authCheck');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/favourite/update', [App\Http\Controllers\FavouriteController::class, 'update'])->name('favourite.save');
+Route::post('/comment/update', [App\Http\Controllers\CommendController::class, 'update'])->name('comment.save');
+
+Route::get('/favorites', function (Request $request) {
+    $user = auth()->user();
+    $subject = DB::table('subjects')->where('status',0)->get();
+    $favorites = DB::table('favorites')->where('user_id',$user->id)->get();
+    foreach ($favorites as $key => $value) {
+        $session = DB::table('sessions')->where('id',$value->session_id)->first();
+        $session->chapeter = DB::table('chapters')->where('id',$session->chapter_id)->first();
+        $session->subject = DB::table('subjects')->where('id',$session->chapeter->subject_id)->first();
+        $favorites[$key] = $session;
+    }
+    return view('student.favorites.index',[
+        'subject' => $subject,
+        'favorites' => $favorites
+    ]);
+})->name('student.favorites');
+
+
+Route::get('/videos', function (Request $request) {
+    $videos = DB::table('videos')->get();
+    $subject = DB::table('subjects')->where('status',0)->get();
+    return view('student.video.index',[
+        'subject' => $subject,
+        'videos' => $videos
+    ]);
+})->name('student.video');
+
+Route::get('/video/detail', function (Request $request) {
+    $video = DB::table('videos')->where('id',$request->id)->first();
+    $subject = DB::table('subjects')->where('status',0)->get();
+    return view('student.video.detail',[
+        'subject' => $subject,
+        'video' => $video
+    ]);
+})->name('student.video.detail');
+
+
 Route::get('/', function () {
     $subject = DB::table('subjects')->where('status',0)->get();
     return view('student.welcome',[
         'subject' => $subject
     ]);
-});
+})->name('student.welcome');
 
 Route::get('/subject', function (Request $request) {
     $subject = DB::table('subjects')->where('status',0)->get();
@@ -42,7 +90,24 @@ Route::get('/subject', function (Request $request) {
 })->name('student.subject');
 
 
+
+
+
 Route::get('/session', function (Request $request) {
+    $user = auth()->user();
+    if($user != null){
+        $favourite = DB::table('favorites')
+            ->where('session_id',$request->id)
+            ->where('user_id',$user->id)->first();
+
+        $comments = DB::table('table_commends')
+            ->where('session_id',$request->id)
+            ->get();
+
+        foreach ($comments as $key => $value) {
+            $value->user = DB::table('users')->where('id',$value->user_id)->first();
+        }
+    }
     $subject = DB::table('subjects')->where('status',0)->get();
     $session = DB::table('sessions')->where('id',$request->id)->first();
     $session->chapeter = DB::table('chapters')->where('id',$session->chapter_id)->first();
@@ -50,6 +115,8 @@ Route::get('/session', function (Request $request) {
     return view('student.session.index',[
         'subject' => $subject,
         'session' => $session,
+        'favourite' => $favourite ?? null,
+        'comments' => $comments ?? null
     ]);
 })->name('student.session');
 
@@ -62,7 +129,7 @@ Route::get('/exam', function () {
     return view('student.exam.index',[
         'subject' => $subject
     ]);
-});
+})->name('student.exam');
 Route::get('/exam/detail', function () {
     $subject = DB::table('subjects')->where('status',0)->get();
     $data = DB::table('exams')->first();
@@ -76,6 +143,7 @@ Route::get('/exam/detail', function () {
 
 Route::post('/exam/check', function (Request $request) {
     $data = DB::table('exams')->first();
+    $subject = DB::table('subjects')->where('status',0)->get();
     $exam = json_decode($data->details,true);
         $numberCorrect = 0;
         foreach ($exam['data'] as $key => $question) {
@@ -83,16 +151,42 @@ Route::post('/exam/check', function (Request $request) {
                     $numberCorrect++;
                 }
         }
-        dd(        'Đúng ' . $numberCorrect  .'/'.$exam['count'] .  ' câu.  Điểm số: '. $numberCorrect/$exam['count'] * 10   . " điểm");
-//    return view('student.exam.index');
+        $last = (        'Đúng ' . $numberCorrect  .'/'.$exam['count'] .  ' câu.  Điểm số: '. $numberCorrect/$exam['count'] * 10   . " điểm");
+    DB::table('points')->insert([
+        'user_id' => auth()->user()->id,
+        'exam_id' => $data->id,
+        'point' => $numberCorrect/$exam['count'] * 10,
+        'detail' => $last,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+    return view('student.exam.info',[
+        'exam' => $exam,
+        'info' => $last,
+        'subject' => $subject
+    ]);
 })->name('student.exam.check');
 
 
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', function () {
+        $userCount = DB::table('users')->where('role',1)->count();
+        $subject = DB::table('subjects')->count();
+        $test = DB::table('exams')->count();
+        $video = DB::table('videos')->count();
+        $point = DB::table('points')->orderBy('id','desc')->get();
+        foreach($point as $p){
+            $p->user = DB::table('users')->where('id',$p->user_id)->first();
+            $p->exam = json_decode(DB::table('exams')->where('id',$p->exam_id)->first()->details,true);
+        }
         return view('manager.index',[
-            'title' => 'Trang chủ'
+            'title' => 'Trang chủ',
+            'userCount' => $userCount,
+            'subject' => $subject,
+            'test' => $test,
+            'video' => $video,
+            'point' => $point,
         ]);
     })->name('admin.home');
 
@@ -176,16 +270,12 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-
-
-
-
-
-    Route::get('/subject/video', function () {
-        return view('manager.subject.video',[
-            'title' => 'Quản lý video bài giảng'
-        ]);
-    })->name('admin.subject.video');
+    Route::get('/subject/video',[App\Http\Controllers\VideoController::class, 'index'])->name('admin.subject.video');
+    Route::get('/subject/video/create',[App\Http\Controllers\VideoController::class, 'create'])->name('admin.video.create');
+    Route::post('/subject/video/store',[App\Http\Controllers\VideoController::class, 'store'])->name('admin.video.store');
+    Route::get('/subject/video/edit',[App\Http\Controllers\VideoController::class, 'edit'])->name('admin.video.edit');
+    Route::post('/subject/video/update',[App\Http\Controllers\VideoController::class, 'update'])->name('admin.video.update');
+    Route::get('/subject/video/delete',[App\Http\Controllers\VideoController::class, 'delete'])->name('admin.video.delete');
 
 
 
@@ -202,7 +292,6 @@ Route::group(['prefix' => 'admin'], function () {
             'title' => 'Tạo bài kiểm tra'
         ]);
     })->name('admin.exam.create');
-
     Route::post('/exam/store', function (Request $request) {
        $name = $request->exam_name;
        $count = $request->count;
@@ -246,7 +335,7 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
     })->name('admin.exam.edit');
 
-    Route::post('/exam/store', function (Request $request) {
+    Route::post('/exam/update', function (Request $request) {
         $name = $request->exam_name;
         $count = $request->count;
         $arrData = [];

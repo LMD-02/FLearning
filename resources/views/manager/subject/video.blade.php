@@ -19,7 +19,7 @@
                                 </select>
                             </div>
                             <div class="float-right col">
-                                <a href="" id="btn-create-classe" class="btn btn-success float-right">
+                                <a href="{{route('admin.video.create')}}" id="btn-create-classe" class="btn btn-success float-right">
                                     Thêm video bài học mới
                                 </a>
                             </div>
@@ -31,26 +31,26 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Tiêu đề video</th>
-                            <th>Thời gian tạo</th>
+                            <th style="width:20%">Tiêu đề video</th>
+                            <th >link</th>
                             <th style="width: 15%">#</th>
                             <th style="width:10%">#</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 1; $i < 10 ; $i++)
+                        @foreach($data as $key => $item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
-                                        {{$i }}
+                                        {{$key+1}}
                                     </a>
                                 </td>
                                 <td style="color:green">
-                                    Cơ sở dữ liệu thật dễ dàng
+                                    {{$item->name}}
                                 </td>
                                 <td>
-                                    1{{$i}}/ 0{{$i}}/ 2023
+                                    {{$item->link}}
                                 </td>
                                 <td>
                                     <a href='' id="btn-edit-course" class="btn btn-info">
@@ -72,14 +72,14 @@
                                 </td>
 
                             </tr>
-                        @endfor
+                        @endforeach
                         </tbody>
                     </table>
-                    {{--                    <nav>--}}
-                    {{--                        <ul class="pagination pagination-rounded mb-0">--}}
-                    {{--                            {{ $data->links() }}--}}
-                    {{--                        </ul>--}}
-                    {{--                    </nav>--}}
+                                        <nav>
+                                            <ul class="pagination pagination-rounded mb-0">
+                                                {{ $data->links() }}
+                                            </ul>
+                                        </nav>
                 </div>
             </div>
         </div>
