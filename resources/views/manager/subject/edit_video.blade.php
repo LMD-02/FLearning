@@ -5,23 +5,28 @@
 @section('content2')
     <div class="row">
         <div class="col-12">
-            <form id="form_create_post" method="post" action="{{route('admin.video.store')}}" enctype="multipart/form-data">
+            <form id="form_create_post" method="post" action="{{route('admin.video.update')}}" enctype="multipart/form-data">
                 <div class="card p-3">
                     @csrf
+                    <input type="hidden" name="id" value="{{$data->id}}">
                     <div class="mb-3">
                         <label for="simpleinput" class="form-label">Tiêu đề video </label>
-                        <input type="text" name="name" id="simpleinput" class="form-control">
+                        <input type="text" name="name"  value="{{$data->name}}" id="simpleinput" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Đường dẫn </label>
-                        <input type="text" name="link" id="" class="form-control">
+                        <input type="text" value="{{$data->link}}" name="link" id="" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="example-image" class="form-label">Môn học</label>
                         <select name="subject" class="form-control">
                             @foreach($subject as $key => $value)
-                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                @if($value->id == $data->subject_id)
+                                    <option value="{{$value->id}}" selected>{{$value->name}}</option>
+                                @else
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

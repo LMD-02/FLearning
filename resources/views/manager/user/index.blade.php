@@ -49,13 +49,21 @@
                                 </td>
                                 <td style="">
                                     Tên:
-                                    <span style="color:black">{{$item->name}}}</span>
+                                    <span style="color:black">{{$item->name}}</span>
                                     <br>
                                     Ngày sinh:
-                                    <span style="color:black">{{$item->birthday}}}</span>
+                                    <span style="color:black">{{$item->birthday}}</span>
                                     <br>
                                     <span >Địa chỉ:</span>
-                                    <span style="color:black">{{$item->address}}}</span>
+                                    <span style="color:black">{{$item->address}}</span>
+                                    <br>
+                                    @if($item->role == 2)
+                                        <span >Vai trò:</span>
+                                        <span style="color:#5f5fef">Giáo viên</span>
+                                        @else
+                                        <span >Vai trò:</span>
+                                        <span style="color:#059927">Người dùng</span>
+                                    @endif
                                 </td>
                                 <td style="color:green">
                                     {{$item->email}}}
@@ -63,18 +71,14 @@
                                 <td>
                                     {{$item->created_at}}
                                 <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-primary">
+                                    <a href="{{route('admin.user.edit',["id"=>$item->id])}}" id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
                                 </td>
                                 <td>
-                                    <form method="post" action=''>
-                                        @csrf
-                                        @method("DELETE")
-                                        <button type="submit" name="delete" class="btn btn-danger">
-                                            <i>Xóa</i>
-                                        </button>
-                                    </form>
+                                    <a class="btn btn-danger" href="{{route('admin.user.delete',["id"=>$item->id])}}" >
+                                        <i>Xóa</i>
+                                    </a>
                                 </td>
 
                             </tr>

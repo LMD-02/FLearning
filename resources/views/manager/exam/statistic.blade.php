@@ -18,11 +18,7 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="float-right col">
-                                <a href="{{route('admin.exam.create')}}" id="btn-create-classe" class="btn btn-success float-right">
-                                    Tạo bài test
-                                </a>
-                            </div>
+
                         </div>
                     </form>
                 </div>
@@ -34,11 +30,10 @@
                             <th>Tên bài thi</th>
                             <th>Số câu hỏi</th>
                             <th style="width:10%">#</th>
-
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($exams as $key => $item)
+                        @foreach($data as $key => $item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
@@ -53,13 +48,9 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{route('admin.exam.edit',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-primary">
-                                        <i>Sửa </i>
+                                    <a href="{{route('admin.statistic.detail',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-primary">
+                                        <i>Xem thống kê </i>
                                     </a>
-                                    <a href="{{route('admin.exam.delete',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-danger">
-                                        <i>Xóa </i>
-                                    </a>
-
                                 </td>
                             </tr>
                         @endforeach
@@ -67,7 +58,7 @@
                     </table>
                                         <nav>
                                             <ul class="pagination pagination-rounded mb-0">
-                                                {{ $exams->links() }}
+                                                {{ $data->links() }}
                                             </ul>
                                         </nav>
                 </div>

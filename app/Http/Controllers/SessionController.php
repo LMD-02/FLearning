@@ -56,8 +56,9 @@ class SessionController extends Controller
         ];
         DB::table('sessions')->insert($arr);
 
-
-        return redirect()->route('admin.subject.session',['id' => $id]);
+        return response()->json([
+            'data' => route('admin.subject.session',['id' => $id])
+        ]);
 
     }
 
@@ -80,7 +81,8 @@ class SessionController extends Controller
 
     public function delete(Request $request){
         $id = $request->get('id');
-        DB::table('chapters')->where('id', $id)->delete();
+        $chapterId = $request->get('chapter_id');
+        DB::table('sessions')->where('id', $id)->delete();
         return redirect()->route('admin.subject.chapter');
     }
 

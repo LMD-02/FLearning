@@ -32,8 +32,9 @@
                         <tr>
                             <th>#</th>
                             <th style="width:20%">Tiêu đề video</th>
+                            <th style="width:20%" >Môn học</th>
                             <th >link</th>
-                            <th style="width: 15%">#</th>
+{{--                            <th style="width: 15%">#</th>--}}
                             <th style="width:10%">#</th>
 
                         </tr>
@@ -49,26 +50,25 @@
                                 <td style="color:green">
                                     {{$item->name}}
                                 </td>
+                                <td style="color:green">
+                                    {{$item->subject->name}}
+                                </td>
                                 <td>
                                     {{$item->link}}
                                 </td>
-                                <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-info">
-                                        Xem video
-                                    </a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a href='' id="btn-edit-course" class="btn btn-info">--}}
+{{--                                        Xem video--}}
+{{--                                    </a>--}}
+{{--                                </td>--}}
                                 <td>
 
-                                    <a href='' id="btn-edit-course" class="btn btn-primary">
+                                    <a href="{{route('admin.video.edit',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                    <form method="post" action=''>
-                                        @csrf
-                                        @method("DELETE")
-                                        <button type="submit" name="delete" class="btn btn-danger">
-                                            <i>Xóa</i>
-                                        </button>
-                                    </form>
+                                    <a href="{{route('admin.video.delete',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-danger">
+                                        <i>Xóa </i>
+                                    </a>
                                 </td>
 
                             </tr>

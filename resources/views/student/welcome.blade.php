@@ -101,48 +101,16 @@
                 </div>
 
                 <div class="row mt-1">
-                    <div class="col-lg-4 col-md-6">
+                    @foreach($subject as $each)
+                    <a href="{{route('student.subject',['id'=>$each->id])}}" class="col-lg-4 col-md-6">
                         <div class="demo-box text-center mt-3">
-                            <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
+                            <img src="{{asset('images/upload/'.$each->image)}}" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
                                  class="img-fluid shadow-sm rounded">
-                            <h5 class="mt-3 f-17">Cơ sở dữ liệu</h5>
+                            <h5 class="mt-3 f-17">{{$each->name}}</h5>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="demo-box text-center mt-3">
-                            <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
-                                 class="img-fluid shadow-sm rounded">
-                            <h5 class="mt-3 f-17">Cơ sở dữ liệu</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="demo-box text-center mt-3">
-                            <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
-                                 class="img-fluid shadow-sm rounded">
-                            <h5 class="mt-3 f-17">Cơ sở dữ liệu</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="demo-box text-center mt-3">
-                            <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
-                                 class="img-fluid shadow-sm rounded">
-                            <h5 class="mt-3 f-17">Cơ sở dữ liệu</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="demo-box text-center mt-3">
-                            <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
-                                 class="img-fluid shadow-sm rounded">
-                            <h5 class="mt-3 f-17">Cơ sở dữ liệu</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="demo-box text-center mt-3">
-                            <img src="/images/logo/sql.png" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white"
-                                 class="img-fluid shadow-sm rounded">
-                            <h5 class="mt-3 f-17">Cơ sở dữ liệu</h5>
-                        </div>
-                    </div>
+                    </a>
+                    @endforeach
+
                 </div>
             </div>
         </section>
@@ -187,18 +155,19 @@
                     </div>
 
                     <div class="col-md-7">
-                        <form>
+                        <form id="form-submit" action="{{route('user.send.report')}}" method="post">
+                            @csrf
                             <div class="row mt-4">
                                 <div class="col-lg-6">
                                     <div class="mb-2">
                                         <label for="fullname" class="form-label">Tên người gửi</label>
-                                        <input class="form-control form-control-light py-2" type="text" id="fullname" placeholder="họ và tên...">
+                                        <input class="form-control form-control-light py-2" type="text" name="name" id="fullname" placeholder="họ và tên...">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-2">
                                         <label for="emailaddress" class="form-label">Email người gửi</label>
-                                        <input class="form-control form-control-light py-2" type="email" required="" id="emailaddress" placeholder="địa chỉ gmail...">
+                                        <input class="form-control form-control-light py-2" type="email" name="email" required="" id="emailaddress" placeholder="địa chỉ gmail...">
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +176,7 @@
                                 <div class="col-lg-12">
                                     <div class="mb-2">
                                         <label for="subject" class="form-label">Lý do hỗ trợ</label>
-                                        <input class="form-control form-control-light py-2" type="text" id="subject" placeholder="nhập yêu cầu...">
+                                        <input class="form-control form-control-light py-2" name="title" type="text" id="subject" placeholder="nhập yêu cầu...">
                                     </div>
                                 </div>
                             </div>
@@ -216,14 +185,14 @@
                                 <div class="col-lg-12">
                                     <div class="mb-2">
                                         <label for="comments" class="form-label">Mô tả chi tiết</label>
-                                        <textarea id="comments" rows="4" class="form-control form-control-light" placeholder="nhập chi tiết yêu cầu..."></textarea>
+                                        <textarea id="comments" rows="4" class="form-control form-control-light" name="detail" placeholder="nhập chi tiết yêu cầu..."></textarea>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mt-2">
                                 <div class="col-12 text-end">
-                                    <button class="btn btn-primary">Gửi phiếu hỗ trợ <i
+                                    <button type="" class="js-submit-send-report btn btn-primary">Gửi phiếu hỗ trợ <i
                                             class="mdi mdi-telegram ms-1"></i> </button>
                                 </div>
                             </div>
@@ -232,7 +201,6 @@
                 </div>
             </div>
         </section>
-
 
 @endsection()
 

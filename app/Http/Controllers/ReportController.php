@@ -7,18 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
-class CommendController extends Controller
+class ReportController extends Controller
 {
     public function index(Request $request){
-        $user = DB::table('table_commends')->paginate(20);
-        foreach ($user as $each){
-            $each->user = DB::table('users')->where('id', $each->user_id)->first();
-            $each->session = DB::table('sessions')->where('id', $each->session_id)->first();
-            $each->chapter = DB::table('chapters')->where('id', $each->session->chapter_id)->first();
-            $each->subject = DB::table('subjects')->where('id', $each->chapter->subject_id)->first();
-        }
-        return view('manager.user.command',[
-            'title' => 'Quản lý bình luận',
+        $user = DB::table('reports')->paginate(20);
+        return view('manager.user.report',[
+            'title' => 'Quản lý phản hồi',
             'data' => $user
         ]);
     }
@@ -84,8 +78,8 @@ class CommendController extends Controller
 
     public function delete(Request $request){
         $id = $request->get('id');
-        DB::table('table_commends')->where('id', $id)->delete();
-        return redirect()->route('admin.user.command');
+        DB::table('users')->where('id', $id)->delete();
+        return redirect()->route('admin.user');
     }
 
     public function send(Request $request){
@@ -109,16 +103,49 @@ class CommendController extends Controller
         return redirect()->route('admin.report');
     }
 
-    public  function update(Request $request){
-        DB::table('table_commends')->insert([
-            'user_id' => auth()->user()->id,
-            'session_id' => $request->get('session_id'),
-            'content' => $request->get('content'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        return response()->json([
-            'status' => 1,
-        ]);
+    public function update(Request $request)
+    {
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $email = $request->get('email');
+        $role = $request->get('role');
+        $phone = $request->get('phone');
+        $address = $request->get('address');
+        $birthday = $request->get('date');
+        $gender = $request->get('gender');
+        if (request()->has('image') && request()->file('image')->isValid())
+        {
+            $image     = request()->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/upload'), 'images/upload/' . $imageName);
+
+
+            $arr = [
+                'name' => $name,
+                'email' => $email,
+                'role' => $role,
+                'phone' => $phone,
+                'address' => $address,
+                'birthday' => $birthday,
+                'avatar' => $imageName,
+                'gender' => $gender,
+                'updated_at' => now()
+            ];
+
+            DB::table('users')->where('id', $id)->update($arr);
+        }else{
+            $arr = [
+                'name' => $name,
+                'email' => $email,
+                'role' => $role,
+                'phone' => $phone,
+                'address' => $address,
+                'birthday' => $birthday,
+                'gender' => $gender,
+                'updated_at' => now()
+            ];
+            DB::table('users')->where('id', $id)->update($arr);
+        }
+        return redirect()->route('admin.user');
     }
 }

@@ -79,6 +79,9 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    <a href="{{route('student.session',['id'=>$session->id,'list'=>true])}}" class="d-flex justify-content-center js-load-more" style="cursor:pointer">
+                                            Xem tất cả ...
+                                    </a>
                                 </div> <!-- end card-body-->
                             </div>
                         @endif
@@ -197,15 +200,23 @@
             </div> <!-- container -->
 
         </div> <!-- content -->
-
+        @if(auth()->user())
+            <input type="hidden" value="{{auth()->user()->name}}"  class="js-auth-check">
+        @endif
 
     </div>
     @push('js')
     <script>
         $('.js-send-comments').click(function (e) {
+            let $item = $('.js-auth-check').length();
+            if($item == 0) {
+                return false;
+            }else{
+                $name = $('.js-auth-check').val();
+            }
             e.preventDefault();
             let $content = $('#content-comment').val();
-            let $name = '{{auth()->user()->name}}';
+            // let $name = '';
             if ($content == '') {
                 alert('Vui lòng nhập nội dung bình luận');
                 return false;
@@ -220,7 +231,7 @@
                 },success:function (res) {
                     console.log(res);
                     if(res.status == 1){
-                        $('.js-append-data').append(
+                        $('.js-append-data').prepend(
                             `
                              <div class="w-100 overflow-hidden mt-2">
                                                 <h5 class="mt-0">${$name}</h5>

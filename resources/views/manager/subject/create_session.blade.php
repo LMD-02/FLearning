@@ -116,7 +116,7 @@
                                 stack: 6
                             });
                             setTimeout(function () {
-                                window.location.href = '{{route('admin.subject.session')}}';
+                                window.location.href = data.data;
                             }, 3000);
                         },
                         error: function (data) {

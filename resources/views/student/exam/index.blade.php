@@ -27,37 +27,41 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <h4 class="page-title">Cơ sở dữ liệu</h4>
+                            <h4 class="page-title">Các bài test</h4>
                         </div>
                     </div>
                 </div>
 
 
                 <div class="row">
-                    <div class="col-md-4 col-xxl-3">
-                        <!-- project card -->
-                        <div class="card d-block">
-                            <div class="card-body">
-                                <div class="dropdown card-widgets">
-                                    <div class="dropdown-menu dropdown-menu-end">
+                    @foreach($exam as $key => $item)
+                        <div class="col-md-4 col-xxl-3">
+                            <!-- project card -->
+                            <div class="card d-block">
+                                <div class="card-body">
+                                    <div class="dropdown card-widgets">
+                                        <div class="dropdown-menu dropdown-menu-end">
 
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- project title-->
-                                <h4 class="mt-0">
-                                    <a href="apps-projects-details.html" class="text-title">Bài test môn Cơ sở dữ liệu
-                                    </a>
-                                </h4>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted font-13 my-3">20 câu trắc nghiệm
-                                    </p>
-                                    <a class="btn btn-primary" href="{{route('student.exam.detail')}}">Làm bài thi</a>
-                                </div>
+                                    <!-- project title-->
+                                    <h4 class="mt-0">
+                                        <a href="apps-projects-details.html" class="text-title">{{$item->data['title']}}
+                                        </a>
+                                    </h4>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="text-muted font-13 my-3">{{$item->data['count']}} câu hỏi
+                                        </p>
+                                        <a class="btn btn-primary" href="{{route('student.exam.detail',['id'=>$item->id])}}">Làm bài thi</a>
+                                    </div>
 
-                            </div> <!-- end card-body-->
+                                </div> <!-- end card-body-->
 
-                        </div> <!-- end card-->
-                    </div>
+                            </div> <!-- end card-->
+                        </div>
+
+                    @endforeach
+
 
                 </div>
                 <!-- end row-->

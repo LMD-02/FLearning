@@ -39,47 +39,48 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 1; $i < 10 ; $i++)
+                        @foreach ($data as $key => $item)
                             <tr>
                                 <td style="color:black">
                                     <a href="">
-                                        {{$i }}
+                                        {{$key + 1}}
                                     </a>
                                 </td>
                                 <td style="">
                                     Tên:
-                                    <span style="color:black">Nguyễn Văn A {{$i}}</span>
+                                    <span style="color:black">{{$item->name}}</span>
                                     <br>
                                     Email:
-                                    <span style="color:black">taikhoan{{$i}}@gmail.com</span>
+                                    <span style="color:black">{{$item->email}}</span>
                                 </td>
                                 <td>
-                                    Vấn đề về chức năng làm bài test
+                                    {{$item->title}}
                                 </td>
                                 <td>
-                                    2{{$i}} phút trước
+                                    {{$item->created_at}}
                                 </td>
                                 <td>
-                                    @if($i > 3)
+                                    @if($item->status == 1)
                                         <p style="color:green">Đã trả lời</p>
-                                        @else
+                                    @else
                                         <p style="color:#168ee5">Mới</p>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href='' id="btn-edit-course" class="btn btn-info">
+                                    <a href={{route('admin.report.edit',['id' => $item->id])}} id="btn-edit-course" class="btn btn-info">
                                         Xem chi tiết
                                     </a>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
+
                         </tbody>
                     </table>
-                    {{--                    <nav>--}}
-                    {{--                        <ul class="pagination pagination-rounded mb-0">--}}
-                    {{--                            {{ $data->links() }}--}}
-                    {{--                        </ul>--}}
-                    {{--                    </nav>--}}
+                                        <nav>
+                                            <ul class="pagination pagination-rounded mb-0">
+                                                {{ $data->links() }}
+                                            </ul>
+                                        </nav>
                 </div>
             </div>
         </div>

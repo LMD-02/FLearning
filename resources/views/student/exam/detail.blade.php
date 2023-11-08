@@ -23,7 +23,7 @@
                     <div class="col-xxl-8 col-lg-8">
                         <!-- project card -->
                         <div class="card d-block">
-                            <form action="{{route('student.exam.check')}}" method="post">
+                            <form action="{{route('student.exam.check',['id'=>$data->id])}}" method="post">
                             <div class="card-body">
                                 @csrf
                                 <div class="d-flex justify-content-between align-items-center mb-2">

@@ -45,8 +45,12 @@ Route::get('/favorites', function (Request $request) {
 
 
 Route::get('/videos', function (Request $request) {
+
     $videos = DB::table('videos')->get();
     $subject = DB::table('subjects')->where('status',0)->get();
+    foreach ($subject as $each) {
+        $each->videos = DB::table('videos')->where('subject_id', $each->id)->get();
+    }
     return view('student.video.index',[
         'subject' => $subject,
         'videos' => $videos
@@ -99,10 +103,16 @@ Route::get('/session', function (Request $request) {
         $favourite = DB::table('favorites')
             ->where('session_id',$request->id)
             ->where('user_id',$user->id)->first();
+        if($request->list == true){
+            $comments = DB::table('table_commends')
+                ->where('session_id',$request->id)
+                ->get();
+        }else{
+            $comments = DB::table('table_commends')
+                ->where('session_id',$request->id)
+                ->paginate(5);
 
-        $comments = DB::table('table_commends')
-            ->where('session_id',$request->id)
-            ->get();
+        }
 
         foreach ($comments as $key => $value) {
             $value->user = DB::table('users')->where('id',$value->user_id)->first();
@@ -125,24 +135,52 @@ Route::get('/session', function (Request $request) {
 
 Route::get('/exam', function () {
     $subject = DB::table('subjects')->where('status',0)->get();
+    $exam = DB::table('exams')->get();
+    foreach ($exam as $value){
+        $value->data = json_decode($value->details,true);
+    }
 
     return view('student.exam.index',[
-        'subject' => $subject
+        'subject' => $subject,
+        'exam' => $exam
     ]);
 })->name('student.exam');
 Route::get('/exam/detail', function () {
     $subject = DB::table('subjects')->where('status',0)->get();
-    $data = DB::table('exams')->first();
+    $data = DB::table('exams')->where('id',request()->id)->first();
     $exam = json_decode($data->details,true);
 
     return view('student.exam.detail',[
+        'data' => $data,
         'exam' => $exam,
         'subject' => $subject
     ]);
 })->name('student.exam.detail');
 
+
+Route::post('/user/send/report', function (Request $request){
+    $name = $request->get('name');
+    $email = $request->get('email');
+    $title = $request->get('title');
+    $detail = $request->get('detail');
+
+    DB::table('reports')->insert([
+        'name' => $name,
+        'email' => $email,
+        'title' => $title,
+        'detail' => $detail,
+        'status' => 0,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return redirect()->route('student.welcome');
+
+
+})->name('user.send.report');
+
 Route::post('/exam/check', function (Request $request) {
-    $data = DB::table('exams')->first();
+    $data = DB::table('exams')->where('id', '=', $request->get('id'))->first();
     $subject = DB::table('subjects')->where('status',0)->get();
     $exam = json_decode($data->details,true);
         $numberCorrect = 0;
@@ -160,10 +198,22 @@ Route::post('/exam/check', function (Request $request) {
         'created_at' => now(),
         'updated_at' => now(),
     ]);
+    $pointList = DB::table('points')->where('exam_id',$data->id)->orderBy('point','desc')->get();
+    $topStudents = collect($pointList)
+        ->groupBy('user_id')
+        ->map(function ($items) {
+            return $items->sortByDesc('point')->first();
+        })
+        ->sortByDesc('point')
+        ->take(5);
+    foreach ($topStudents as $student){
+        $student->user = DB::table('users')->where('id',$student->user_id)->first();
+    }
     return view('student.exam.info',[
         'exam' => $exam,
         'info' => $last,
-        'subject' => $subject
+        'subject' => $subject,
+        'topStudents' => $topStudents,
     ]);
 })->name('student.exam.check');
 
@@ -171,11 +221,14 @@ Route::post('/exam/check', function (Request $request) {
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', function () {
+        if(auth()->user()->role == 0){
+            return redirect()->route('student.welcome');
+        }
         $userCount = DB::table('users')->where('role',1)->count();
         $subject = DB::table('subjects')->count();
         $test = DB::table('exams')->count();
         $video = DB::table('videos')->count();
-        $point = DB::table('points')->orderBy('id','desc')->get();
+        $point = DB::table('points')->orderBy('id','desc')->take(4)->get();
         foreach($point as $p){
             $p->user = DB::table('users')->where('id',$p->user_id)->first();
             $p->exam = json_decode(DB::table('exams')->where('id',$p->exam_id)->first()->details,true);
@@ -190,53 +243,45 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
     })->name('admin.home');
 
-    Route::get('/user', function () {
-        $user = DB::table('users')->where('role',1)->paginate(20);
-        return view('manager.user.index',[
-            'title' => 'Quản lý người dùng',
-            'data' => $user
-        ]);
-    })->name('admin.user');
 
-    Route::get('/user/create', function () {
-        return view('manager.user.userCreate',[
-            'title' => 'Tạo người dùng',
-        ]);
-    })->name('admin.user.create');
+    Route::get('/user',[App\Http\Controllers\UserController::class, 'index'])->name('admin.user');
+    Route::get('/user/create',[App\Http\Controllers\UserController::class, 'create'])->name('admin.user.create');
+    Route::post('/user/store',[App\Http\Controllers\UserController::class, 'store'])->name('admin.user.store');
+    Route::get('/user/updateStatus',[App\Http\Controllers\UserController::class, 'updateStatus'])->name('admin.user.updateStatus');
+    Route::get('/user/edit',[App\Http\Controllers\UserController::class, 'edit'])->name('admin.user.edit');
+    Route::post('/user/update',[App\Http\Controllers\UserController::class, 'update'])->name('admin.user.update');
+    Route::get('/user/delete',[App\Http\Controllers\UserController::class, 'delete'])->name('admin.user.delete');
 
-    Route::get('/user/store', function () {
-        return view('manager.user.index',[
-            'title' => 'Tạo người dùng',
-        ]);
-    })->name('admin.user.store');
+    Route::get('/statistic',[App\Http\Controllers\StatisticController::class, 'index'])->name('admin.statistic');
+    Route::get('/statistic/detail',[App\Http\Controllers\StatisticController::class, 'detail'])->name('admin.statistic.detail');
 
-    Route::get('/user/edit', function () {
-        return view('manager.user.index',[
-            'title' => 'Tạo người dùng',
-        ]);
-    })->name('admin.user.edit');
+    Route::get('/report',[App\Http\Controllers\ReportController::class, 'index'])->name('admin.report');
+    Route::get('/report/create',[App\Http\Controllers\ReportController::class, 'create'])->name('admin.report.create');
+    Route::post('/report/store',[App\Http\Controllers\ReportController::class, 'store'])->name('admin.report.store');
+    Route::get('/report/updateStatus',[App\Http\Controllers\ReportController::class, 'updateStatus'])->name('admin.report.updateStatus');
+    Route::get('/report/edit',[App\Http\Controllers\ReportController::class, 'edit'])->name('admin.report.edit');
+    Route::post('/report/update',[App\Http\Controllers\ReportController::class, 'update'])->name('admin.report.update');
+    Route::get('/report/delete',[App\Http\Controllers\ReportController::class, 'delete'])->name('admin.report.delete');
+    Route::post('/report/send',[App\Http\Controllers\ReportController::class, 'send'])->name('admin.report.send');
 
-    Route::get('/user/update', function () {
-        return view('manager.user.index',[
-            'title' => 'Tạo người dùng',
-        ]);
-    })->name('admin.user.update');
+
+    Route::get('/command',[App\Http\Controllers\CommendController::class, 'index'])->name('admin.user.command');
+    Route::get('/command/create',[App\Http\Controllers\CommendController::class, 'create'])->name('admin.command.create');
+    Route::post('/command/store',[App\Http\Controllers\CommendController::class, 'store'])->name('admin.command.store');
+    Route::get('/command/updateStatus',[App\Http\Controllers\CommendController::class, 'updateStatus'])->name('admin.command.updateStatus');
+    Route::get('/command/edit',[App\Http\Controllers\CommendController::class, 'edit'])->name('admin.command.edit');
+//    Route::post('/command/update',[App\Http\Controllers\CommendController::class, 'update'])->name('admin.command.update');
+    Route::get('/command/delete',[App\Http\Controllers\CommendController::class, 'delete'])->name('admin.command.delete');
 
 
 
+//    Route::get('/user/report', function () {
+//        return view('manager.user.report',[
+//            'title' => 'Quản lý phản hồi'
+//        ]);
+//    })->name('admin.user.report');
 
 
-    Route::get('/user/report', function () {
-        return view('manager.user.report',[
-            'title' => 'Quản lý phản hồi'
-        ]);
-    })->name('admin.user.report');
-
-    Route::get('/user/command', function () {
-        return view('manager.user.command',[
-            'title' => 'Quản lý bình luận'
-        ]);
-    })->name('admin.user.command');
 
     Route::get('/subject',[App\Http\Controllers\SubjectController::class, 'index'])->name('admin.subject');
     Route::get('/subject/create',[App\Http\Controllers\SubjectController::class, 'create'])->name('admin.subject.create');
@@ -318,9 +363,8 @@ Route::group(['prefix' => 'admin'], function () {
           'created_at' => now(),
           'updated_at' => now(),
        ]);
-        return view('manager.exam.index',[
-            'title' => 'Quản lý bài kiểm tra'
-        ]);
+         return redirect()->route('admin.exam');
+
     })->name('admin.exam.store');
 
     Route::get('/exam/edit',function (Request $request){
@@ -334,6 +378,13 @@ Route::group(['prefix' => 'admin'], function () {
             'id' => $id,
         ]);
     })->name('admin.exam.edit');
+
+    Route::get('/exam/delete',function (Request $request){
+        $id = $request->id;
+        DB::table('exams')->where('id',$id)->delete();
+        return redirect()->route('admin.exam');
+
+    })->name('admin.exam.delete');
 
     Route::post('/exam/update', function (Request $request) {
         $name = $request->exam_name;

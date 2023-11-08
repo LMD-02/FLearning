@@ -12,6 +12,7 @@
     </a>
 
 
+    @if(auth()->user()->role != 0)
 
     <div class="h-100" id="left-side-menu-container" data-simplebar>
 
@@ -24,14 +25,16 @@
                 </a>
             </li>
             <li class="side-nav-title side-nav-item">Người dùng</li>
+            @if(auth()->user()->role == 1)
             <li class="side-nav-item">
                 <a href="{{route('admin.user')}}" class="side-nav-link" >
                     <i class="mdi mdi-human-male-female"></i>
                     <span>Quản lý người dùng</span>
                 </a>
             </li>
+            @endif
             <li class="side-nav-item">
-                <a href="{{route('admin.user.report')}}" class="side-nav-link" >
+                <a href="{{route('admin.report')}}" class="side-nav-link" >
                     <i class="mdi mdi-human-male-female"></i>
                     <span>Quản lý phản hồi </span>
                 </a>
@@ -50,9 +53,12 @@
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="side-nav-second-level mm-collapse " aria-expanded="false" style="">
+                    @if(auth()->user()->role == 1)
+
                     <li>
                         <a href="{{route('admin.subject')}}">Quản lý môn học</a>
                     </li>
+                    @endif
                     <li>
                         <a href="{{route('admin.subject.chapter')}}">Quản lý chương</a>
                     </li>
@@ -64,6 +70,8 @@
                     </li>
                 </ul>
             </li>
+            @if(auth()->user()->role == 1)
+
             <li class="side-nav-item">
                 <a href="javascript: void(0);" class="side-nav-link">
                     <i class="mdi mdi-human-male-female"></i>
@@ -75,13 +83,14 @@
                         <a href="{{route('admin.exam')}}">Quản lý bài thi</a>
                     </li>
                     <li>
-                        <a href="">Thống kê</a>
+                        <a href="{{route('admin.statistic')}}">Thống kê</a>
                     </li>
                 </ul>
             </li>
+                @endif
         </ul>
     </div>
     <!-- Sidebar -left -->
-
+    @endif
 </div>
 <!-- Left Sidebar End -->

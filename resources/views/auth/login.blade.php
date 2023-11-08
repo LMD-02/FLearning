@@ -30,7 +30,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href=" ">PKA Manager </a>
+            <a class="navbar-brand" href=" "> Manager </a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -39,9 +39,9 @@
                         <i class="material-icons">info</i> Hỗ trợ
                     </a>
                 </li>
-                <li class=" active ">
-                    <a href="login.html">
-                        <i class="material-icons">fingerprint</i> Login
+                <li class="  ">
+                    <a href="{{route('register')}}">
+                        <i class="material-icons">fingerprint</i> Đăng ký
                     </a>
                 </li>
                 <li class="">
@@ -63,7 +63,7 @@
                         <form method="post" action="{{route('authCheck')}}">
                             @csrf
                             <div class="card card-login card-hidden">
-                                <div class="card-header text-center" data-background-color="rose">
+                                <div class="card-header text-center" data-background-color="green">
                                     <h4 class="card-title">Login</h4>
 {{--                                    <div class="social-line">--}}
 {{--                                        <a href="#btn" class="btn btn-just-icon btn-simple">--}}
