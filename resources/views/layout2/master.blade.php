@@ -1,25 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>{{ $title ?? '' }} - {{config('app.name')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-    <meta content="Coderthemes" name="author" />
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Coderthemes" name="author"/>
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('images/logo/logo_sm.png')}}">
-    <link href="{{asset('/css/checkbox.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/css/checkbox.css')}}" rel="stylesheet" type="text/css"/>
     <!-- third party css -->
-    <link href="{{asset('/css/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('/css/app-creative.min.css')}}" rel="stylesheet" type="text/css" id="light-style" />
-    <link href="{{asset('/css/app-creative-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style" />
+    <link href="{{asset('/css/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('/css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('/css/app-creative.min.css')}}" rel="stylesheet" type="text/css" id="light-style"/>
+    <link href="{{asset('/css/app-creative-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style"/>
     @stack('css2')
 </head>
 
-<body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+<body class="loading"
+      data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
 <!-- Begin page -->
 <div class="wrapper">
     <!-- ========== Left Sidebar Start ========== -->
@@ -84,16 +84,18 @@
 
             <!-- Settings -->
             <h5 class="mt-3">Color Scheme</h5>
-            <hr class="mt-1" />
+            <hr class="mt-1"/>
 
             <div class="custom-control custom-switch mb-1">
-                <input type="radio" class="custom-control-input" name="color-scheme-mode" value="light" id="light-mode-check"
-                       checked />
+                <input type="radio" class="custom-control-input" name="color-scheme-mode" value="light"
+                       id="light-mode-check"
+                       checked/>
                 <label class="custom-control-label" for="light-mode-check">Light Mode</label>
             </div>
 
             <div class="custom-control custom-switch mb-1">
-                <input type="radio" class="custom-control-input" name="color-scheme-mode" value="dark" id="dark-mode-check" />
+                <input type="radio" class="custom-control-input" name="color-scheme-mode" value="dark"
+                       id="dark-mode-check"/>
                 <label class="custom-control-label" for="dark-mode-check">Dark Mode</label>
             </div>
 
@@ -101,19 +103,20 @@
             <h5 class="mt-4">Width</h5>
             <hr class="mt-1"/>
             <div class="custom-control custom-switch mb-1">
-                <input type="radio" class="custom-control-input" name="width" value="fluid" id="fluid-check" checked />
+                <input type="radio" class="custom-control-input" name="width" value="fluid" id="fluid-check" checked/>
                 <label class="custom-control-label" for="fluid-check">Fluid</label>
             </div>
             <div class="custom-control custom-switch mb-1">
-                <input type="radio" class="custom-control-input" name="width" value="boxed" id="boxed-check" />
+                <input type="radio" class="custom-control-input" name="width" value="boxed" id="boxed-check"/>
                 <label class="custom-control-label" for="boxed-check">Boxed</label>
             </div>
 
 
-
             <button class="btn btn-primary btn-block mt-4" id="resetBtn">Reset to Default</button>
 
-            <a href="https://themes.getbootstrap.com/product/hyper-responsive-admin-dashboard-template/" class="btn btn-danger btn-block mt-3" target="_blank"><i class="mdi mdi-basket mr-1"></i> Purchase Now</a>
+            <a href="https://themes.getbootstrap.com/product/hyper-responsive-admin-dashboard-template/"
+               class="btn btn-danger btn-block mt-3" target="_blank"><i class="mdi mdi-basket mr-1"></i> Purchase
+                Now</a>
         </div> <!-- end padding-->
 
     </div>
@@ -130,11 +133,24 @@
 <script src="{{asset('/js/jquery-jvectormap-1.2.2.min.js')}}"></script>
 <script src="{{asset('/js/jquery-jvectormap-world-mill-en.js')}}"></script>
 <script src="{{asset('/js/helper.js')}}"></script>
+<script>
+    $('.btn-delete').click(function (e) {
+        e.preventDefault();
+        var result = confirm("Bạn có chắc chắn muốn thực hiện hành động này không?");
+
+        if (result == true) {
+            document.location.href = $(this).attr('href');
+        } else {
+
+        }
+    });
+</script>
 <!-- third party js ends -->
 
 <!-- demo app -->
 @stack('js2')
 <script src="assets/js/pages/demo.dashboard.js"></script>
+
 <!-- end demo js-->
 </body>
 </html>

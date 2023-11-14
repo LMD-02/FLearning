@@ -201,7 +201,34 @@
                 </div>
             </div>
         </section>
-
+@push('js')
+    <script>
+        $('.js-submit-send-report').click(function(e) {
+            e.preventDefault();
+            let form = $('#form-submit');
+            let data = form.serialize();
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: data,
+                success: function (res) {
+                   $.toast({
+                       heading: 'Thành công',
+                       text: 'Gửi yêu cầu thành công',
+                       position: 'top-right',
+                       loaderBg: '#ff6849',
+                       icon: 'success',
+                       hideAfter: 3000,
+                       stack: 6
+                   });
+                   setTimeout(function () {
+                       window.location.reload();
+                   }, 2000)
+                }
+            });
+        });
+    </script>
+@endpush
 @endsection()
 
 

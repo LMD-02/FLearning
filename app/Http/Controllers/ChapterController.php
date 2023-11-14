@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class ChapterController extends Controller
 {
     public function index(Request $request){
-        $subject = DB::table('chapters')->paginate(20);
+        $subject = DB::table('chapters')->paginate(12);
         foreach ($subject as $item){
             $item->count = DB::table('sessions')->where('chapter_id', $item->id)->count();
         }

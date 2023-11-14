@@ -67,7 +67,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href={{route('admin.report.edit',['id' => $item->id])}} id="btn-edit-course" class="btn btn-info">
+                                    <a href="{{route('admin.report.edit',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-info">
                                         Xem chi tiết
                                     </a>
                                 </td>

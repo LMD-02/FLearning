@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class VideoController extends Controller
 {
     public function index(Request $request){
-        $data = DB::table('videos')->paginate(20);
+        $data = DB::table('videos')->paginate(12);
         foreach ($data as $each){
             $each->subject = DB::table('subjects')->where('id', $each->subject_id)->first();
         }

@@ -56,7 +56,7 @@
                                     <a href="{{route('admin.exam.edit',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                    <a href="{{route('admin.exam.delete',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-danger">
+                                    <a   href="{{route('admin.exam.delete',['id' => $item->id])}}" id="btn-edit-course" class="btn btn-danger btn-delete">
                                         <i>Xóa </i>
                                     </a>
 

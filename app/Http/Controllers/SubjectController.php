@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class SubjectController extends Controller
 {
     public function index(Request $request){
-        $subject = DB::table('subjects')->paginate(20);
+        $subject = DB::table('subjects')->paginate(12);
         return view('manager.subject.index',[
             'title' => 'Quản lý môn học',
             'data' => $subject

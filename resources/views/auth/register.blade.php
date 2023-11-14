@@ -35,8 +35,8 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                    <a href="register.html">
-                        <i class="material-icons">info</i> Hỗ trợ
+                    <a href="{{route('forgot')}}">
+                        <i class="material-icons">info</i>  Quên mật khẩu
                     </a>
                 </li>
                 <li class="  ">

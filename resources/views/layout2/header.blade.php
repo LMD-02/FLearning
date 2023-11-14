@@ -67,11 +67,18 @@
                 <span class="account-user-avatar">
                     <img src="{{asset('/images/avatar/role2.png')}}" alt="avatar" class="rounded-circle">
                 </span>
-                <span>
+                @if(auth()->user()->role == 1)
+                    <span>
                         <span class="account-user-name">Đoàn Thanh Tâm</span>
-                        <span class="account-position">ADMIN</span>
+                        <span class="account-position">Quản lý</span>
+                    </span>
+                @else
+                    <span>
+                        <span class="account-user-name">{{auth()->user()->name}}</span>
+                        <span class="account-position">Giáo viên</span>
+                    </span>
+                @endif
 
-                </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                 <!-- item-->
@@ -80,8 +87,15 @@
                 </div>
 
                 <!-- item-->
-
-                <a href="" class="dropdown-item notify-item">
+                <a href="{{route('admin.profile')}}" class="dropdown-item notify-item">
+                    <i class="mdi mdi-account-circle me-1"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="{{route('student.welcome')}}" class="dropdown-item notify-item">
+                    <i class="mdi mdi-logout mr-1"></i>
+                    <span>Trang chủ</span>
+                </a>
+                <a href="{{route('logout')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout mr-1"></i>
                     <span>Logout</span>
                 </a>

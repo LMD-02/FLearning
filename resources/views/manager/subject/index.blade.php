@@ -77,7 +77,7 @@
                                     <a href="{{route('admin.subject.edit',["id"=>$item->id])}}" id="btn-edit-course" class="btn btn-primary">
                                         <i>Sửa </i>
                                     </a>
-                                    <a class="btn btn-danger" href="{{route('admin.subject.delete',["id"=>$item->id])}}" >
+                                    <a class="btn btn-danger btn-delete" href="{{route('admin.subject.delete',["id"=>$item->id])}}" >
                                             <i>Xóa</i>
                                     </a>
                                 </td>

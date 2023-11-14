@@ -73,8 +73,8 @@
                         <table class="table table-centered table-nowrap table-hover mb-0">
                             <tbody>
                             @foreach($point as $key => $item)
+                                @if($item->exam != null)
                                 <tr>
-
                                     <td>
                                         <h5 class="font-14 my-1 fw-normal">{{$item->user->name}}</h5>
                                         <span class="text-muted font-13"> Người dùng</span>
@@ -92,6 +92,7 @@
                                         <span class="text-muted font-13">Số điểm</span>
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
 
                             </tbody>

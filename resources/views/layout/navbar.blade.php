@@ -67,7 +67,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown" id="drop-down-user">
 
-                            <a href="javascript:void(0);" class="dropdown-item">
+                            <a href="{{route('student.profile')}}" class="dropdown-item">
                                 <i class="mdi mdi-account-circle me-1"></i>
                                 <span>Tài khoản</span>
                             </a>

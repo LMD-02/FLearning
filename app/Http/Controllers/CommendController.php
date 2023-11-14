@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class CommendController extends Controller
 {
     public function index(Request $request){
-        $user = DB::table('table_commends')->paginate(20);
+        $user = DB::table('table_commends')->paginate(12);
         foreach ($user as $each){
             $each->user = DB::table('users')->where('id', $each->user_id)->first();
             $each->session = DB::table('sessions')->where('id', $each->session_id)->first();

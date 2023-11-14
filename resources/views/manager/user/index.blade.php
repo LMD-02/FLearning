@@ -76,7 +76,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" href="{{route('admin.user.delete',["id"=>$item->id])}}" >
+                                    <a class="btn btn-danger btn-delete" href="{{route('admin.user.delete',["id"=>$item->id])}}" >
                                         <i>Xóa</i>
                                     </a>
                                 </td>

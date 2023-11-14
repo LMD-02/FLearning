@@ -3,21 +3,82 @@
 namespace App\Http\Controllers;
 
 
+use App\Mail\ForgotEmail;
+use http\Env\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function login(request $request)
+    public function forgot()
     {
-        $message = $request->get('errors');
-        $messageSuccess = $request->get('success');
+        return view('auth.forgot');
+    }
 
-        return view('auth.login', [
-            'message' => $message ?? null,
-            'messageSuccess' => $messageSuccess ?? null
+    public function forgot2(Request $request)
+    {
+        $email = $request->get('email');
+        $user  = DB::table('users')->where('email', $email)->first();
+        if ($user == null)
+        {
+            return redirect()->route('forgot', ['errors' => 'Email không tồn tại']);
+        }
+        $data = [
+            'hash_id' => Str::random(10),
+            'user_id' => $user->id,
+        ];
+        $check = DB::table('tokens')->where('user_id', $user->id)->first();
+        if ($check != null)
+        {
+            DB::table('tokens')->where('user_id', $user->id)->delete();
+        }
+
+        DB::table('tokens')->insert($data);
+        $link = route('forgot3', ['hash_id' => $data['hash_id']]);
+
+        $responseData = [
+            'name' => $user->name,
+            'link' => $link,
+        ];
+
+        // Gửi email
+        Mail::to($email)->send(new ForgotEmail($responseData));
+
+        return redirect()->route('forgot', ['success' => 'Vui lòng kiểm tra email để lấy lại mật khẩu']);
+
+    }
+
+    public function updatePass(Request $request){
+        $password = $request->get('password');
+        $repassword = $request->get('repassword');
+        $userId = $request->get('user_id');
+
+        $user = DB::table('users')->where('id', $userId)->first();
+        if ($password != $repassword)
+        {
+            return redirect()->route('forgot2', ['email' => $user->email, 'errors' => 'Mật khẩu không trùng khớp']);
+        }
+        DB::table('users')->where('id', $user->id)->update([
+            'password' => bcrypt($password)
+        ]);
+        DB::table('tokens')->where('user_id', $userId)->delete();
+        return redirect()->route('login', ['success' => 'Đổi mật khẩu thành công']);
+    }
+
+    public function formForgot(Request $request){
+        $hash = $request->get('hash_id');
+        $token = DB::table('tokens')->where('hash_id', $hash)->first();
+        if ($token == null)
+        {
+            return redirect()->route('forgot', ['errors' => 'Link không tồn tại']);
+        }
+        $user = DB::table('users')->where('id', $token->user_id)->first();
+        return view('auth.forgot2', [
+            'user' => $user
         ]);
     }
 
@@ -75,15 +136,15 @@ class AuthController extends Controller
         }
 
         DB::table('users')->insert([
-            'name'  => $name,
-            'email' => $email,
-            'password' => bcrypt($password),
-            'address' => $address,
-            'phone' => $phone,
-            'birthday' => $birthday,
-            'avatar' => 'images/avatar/role2.png',
-            'gender' => $gender,
-            'role' => 0,
+            'name'       => $name,
+            'email'      => $email,
+            'password'   => bcrypt($password),
+            'address'    => $address,
+            'phone'      => $phone,
+            'birthday'   => $birthday,
+            'avatar'     => 'images/avatar/role2.png',
+            'gender'     => $gender,
+            'role'       => 0,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -96,7 +157,7 @@ class AuthController extends Controller
     {
         session()->start();
         $this->validate($request, [
-            'email' => 'required',
+            'email'    => 'required',
             'password' => 'required',
         ]);
 
@@ -115,6 +176,17 @@ class AuthController extends Controller
         }
 
         return redirect()->route('login', ['errors' => 'Sai tài khoản hoặt mật khẩu']);
+    }
+
+    public function login(request $request)
+    {
+        $message        = $request->get('errors');
+        $messageSuccess = $request->get('success');
+
+        return view('auth.login', [
+            'message'        => $message ?? null,
+            'messageSuccess' => $messageSuccess ?? null
+        ]);
     }
 
     public function logout(Request $request): RedirectResponse
