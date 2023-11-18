@@ -9,15 +9,15 @@
                 <div class="card-header " >
                     <form id="form-filter">
                         <div class="form-group d-flex">
-                            <div class="input-group mb-3 w-15 mr-3">
-                                <label for="select-course">Tìm kiếm</label>
-                                <select class="custom-select select-filter-course" id="select-course" name="course" >
-                                    <option selected>All...</option>
-                                    <option>
-                                        Nguyễn Văn A
-                                    </option>
-                                </select>
-                            </div>
+{{--                            <div class="input-group mb-3 w-15 mr-3">--}}
+{{--                                <label for="select-course">Tìm kiếm</label>--}}
+{{--                                <select class="custom-select select-filter-course" id="select-course" name="course" >--}}
+{{--                                    <option selected>All...</option>--}}
+{{--                                    <option>--}}
+{{--                                        Nguyễn Văn A--}}
+{{--                                    </option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
                             {{--                            <div class="float-right col">--}}
                             {{--                                <a href="" id="btn-create-classe" class="btn btn-success float-right">--}}
                             {{--                                    Tạo sinh viên--}}

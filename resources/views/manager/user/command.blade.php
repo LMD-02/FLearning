@@ -10,12 +10,16 @@
                     <form id="form-filter">
                         <div class="form-group d-flex">
                             <div class="input-group mb-3 w-15 mr-3">
-                                <label for="select-course">Tìm kiếm</label>
-                                <select class="custom-select select-filter-course" id="select-course" name="course">
-                                    <option selected>All...</option>
-                                    <option>
-                                        Nguyễn Văn A
-                                    </option>
+                                <label for="select-course">Theo buổi học</label>
+                                <select class="custom-select select-filter-course" id="select-course" name="data" >
+                                    <option value="0" selected>All...</option>
+                                    @foreach($sessionData as $item)
+                                        <option value="{{$item->id}}" {{request()->get('data') == $item->id ? 'selected' : ''}}>
+                                            {{$item->name}}
+                                        </option>
+                                    @endforeach
+
+
                                 </select>
                             </div>
                             {{--                            <div class="float-right col">--}}
@@ -70,7 +74,7 @@
                                 {{--                                    @endif--}}
                                 {{--                                </td>--}}
                                 <td>
-                                        <a class="btn btn-danger" href="{{route('admin.command.delete',['id' => $item->id])}}" style="color:white">Ẩn bình luận</a>
+                                        <a class="btn btn-danger btn-delete" href="{{route('admin.command.delete',['id' => $item->id])}}" style="color:white">Xóa bình luận</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -91,11 +95,11 @@
         <script>
             $('#select-course').select2();
 
-            // $(document).ready(async function() {
-            //     $('.select-filter-course, .select-filter-student,.select-filter-major').change(function(){
-            //         $('#form-filter').submit();
-            //     });
-            // });
+            $(document).ready(async function() {
+                $('.select-filter-course, .select-filter-student,.select-filter-major').change(function(){
+                    $('#form-filter').submit();
+                });
+            });
         </script>
     @endpush
 @endsection()

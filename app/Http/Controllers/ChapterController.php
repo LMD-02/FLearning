@@ -8,13 +8,25 @@ use Illuminate\Support\Facades\DB;
 class ChapterController extends Controller
 {
     public function index(Request $request){
-        $subject = DB::table('chapters')->paginate(12);
-        foreach ($subject as $item){
-            $item->count = DB::table('sessions')->where('chapter_id', $item->id)->count();
+        $data = $request->data ?? 0;
+        $subjectData = DB::table('subjects')->get();
+        if($data != 0){
+            $subject = DB::table('chapters')->where('subject_id',$data)->paginate(12);
+            foreach ($subject as $item){
+                $item->count = DB::table('sessions')->where('chapter_id', $item->id)->count();
+                $item->subject = DB::table('subjects')->where('id', $item->subject_id)->first();
+            }
+        }else{
+            $subject = DB::table('chapters')->paginate(12);
+            foreach ($subject as $item){
+                $item->count = DB::table('sessions')->where('chapter_id', $item->id)->count();
+                $item->subject = DB::table('subjects')->where('id', $item->subject_id)->first();
+            }
         }
         return view('manager.subject.chapter',[
             'title' => 'Quản lý chương',
-            'data' => $subject
+            'data' => $subject,
+            'subjects' => $subjectData
         ]);
     }
 

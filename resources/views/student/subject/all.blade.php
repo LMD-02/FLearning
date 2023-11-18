@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="page-title-box">
-                            <h4 class="page-title">Danh sách bài học yêu thích</h4>
+                            <h4 class="page-title">Danh sách môn học</h4>
                         </div>
                     </div>
                 </div>
@@ -24,43 +24,37 @@
                         <div class="card">
                             <div class="card-body">
                                 <div dir="ltr" class="row d-flex justify-content-between">
-                                    @if($videos->count() == 0)
+                                    @if($subject->count() == 0)
                                         <div class="col-12">
                                             <div class="alert alert-danger" role="alert">
-                                                <strong>Chưa có bài video nào </strong>
+                                                <strong>Chưa có môn học nào </strong>
                                             </div>
                                         </div>
                                     @endif
-                                    @foreach($subject as $each)
                                         <div class="d-flex flex-column w-100">
-                                            <h3>
-                                                {{$each->name}}
-                                            </h3>
                                             <div class="row p-2">
-                                                @foreach($each->videos as $key => $item)
+                                                @foreach($subject as $key => $item)
                                                     <div class="card col-3 mb-1 shadow-none border">
                                                         <div class="p-2">
                                                             <div class="row ">
                                                                 <div class="col-auto">
-                                                                    <div
-                                                                        class="avatar-sm d-flex justify-content-center align-items-center"
-                                                                        style="border:1px solid #ccc; width:60px; height:60px">
-                                                                        .MP4
-                                                                    </div>
+                                                                    <img src="{{asset('images/upload/'.$item->image)}}"
+                                                                         alt="user-image" width="70px" height="70px"  style="object-fit:cover" class="rounded-circle">
+
                                                                 </div>
                                                                 <div class="col ps-0">
                                                                     <a href="javascript:void(0);"
-                                                                       class="text-muted fw-bold">Tiêu đề video
+                                                                       class="text-muted fw-bold">Tên môn học
                                                                         <br><strong>
                                                                             {{$item->name}}
                                                                         </strong></a>
 
                                                                     <div class="d-flex">
-                                                                        <a href="{{route('student.video.detail',['id' => $item->id])}}"
-                                                                           class="btn btn-info mt-2"
+                                                                        <a href="{{route('student.subject',['id' => $item->id])}}"
+                                                                           class="btn btn-success mt-2"
                                                                            style="margin-right:8px;">
                                                                             <i class="mdi mdi-book-open-outline"></i>
-                                                                            Xem video
+                                                                            Xem môn học
                                                                         </a>
                                                                     </div>
 
@@ -72,15 +66,14 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-                                            @if($each->videos->count() > 0)
+                                            @if($subject->count() > 0)
                                                 <nav>
                                                     <ul class="pagination pagination-rounded mb-0">
-                                                        {{ $each->videos->links() }}
+                                                        {{ $subject->links() }}
                                                     </ul>
                                                 </nav>
                                             @endif
                                         </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>

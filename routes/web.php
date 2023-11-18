@@ -53,7 +53,15 @@ Route::get('/favorites', function (Request $request)
     ]);
 })->name('student.favorites');
 
+Route::get('/subjects', function (Request $request)
+{
 
+    $subject  = DB::table('subjects')->paginate(12);
+
+    return view('student.subject.all', [
+        'subject' => $subject,
+    ]);
+})->name('student.subjects');
 Route::get('/videos', function (Request $request)
 {
 
@@ -61,7 +69,7 @@ Route::get('/videos', function (Request $request)
     $subject = DB::table('subjects')->where('status', 0)->get();
     foreach ($subject as $each)
     {
-        $each->videos = DB::table('videos')->where('subject_id', $each->id)->get();
+        $each->videos = DB::table('videos')->where('subject_id', $each->id)->paginate(4);
     }
     return view('student.video.index', [
         'subject' => $subject,
@@ -125,15 +133,31 @@ Route::get('/profile', function ()
 Route::post('/profile/update', function (Request $request)
 {
     $userId = auth()->user()->id;
-    DB::table('users')->where('id', $userId)->update([
-        'name'       => $request->name,
-        'email'      => $request->email,
-        'phone'      => $request->phone,
-        'address'    => $request->address,
-        'birthday'   => $request->birthday,
-        'updated_at' => now(),
-        'gender'     => $request->gender
-    ]);
+    if($request->has('image')) {
+        $image = request()->file('image');
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('images/upload'), 'images/upload/'.$imageName);
+        DB::table('users')->where('id', $userId)->update([
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'phone'      => $request->phone,
+            'address'    => $request->address,
+            'birthday'   => $request->birthday,
+            'updated_at' => now(),
+            'gender'     => $request->gender,
+            'avatar' => $imageName
+        ]);
+    }else{
+        DB::table('users')->where('id', $userId)->update([
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'phone'      => $request->phone,
+            'address'    => $request->address,
+            'birthday'   => $request->birthday,
+            'updated_at' => now(),
+            'gender'     => $request->gender
+        ]);
+    }
     return response()->json([
         'status'  => 1,
         'message' => 'Cập nhật thành công'
@@ -405,12 +429,20 @@ Route::group(['prefix' => 'admin'], function ()
     Route::get('/subject/video/delete', [App\Http\Controllers\VideoController::class, 'delete'])->name('admin.video.delete');
 
 
-    Route::get('/exam', function ()
+    Route::get('/exam', function (Request $request)
     {
-        $exams = DB::table('exams')->paginate(12);
+        $data = $request->data ?? 0;
+        $subjectData = DB::table('subjects')->get();
+
+        if($data == 0){
+            $exams = DB::table('exams')->paginate(12);
+        }else{
+            $exams = DB::table('exams')->where('id',$data)->paginate(12);
+        }
         return view('manager.exam.index', [
             'title' => 'Quản lý bài kiểm tra',
             'exams' => $exams,
+            'subjects' => $subjectData
         ]);
     })->name('admin.exam');
 

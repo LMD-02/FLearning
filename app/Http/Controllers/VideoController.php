@@ -8,14 +8,21 @@ use Illuminate\Support\Facades\DB;
 class VideoController extends Controller
 {
     public function index(Request $request){
-        $data = DB::table('videos')->paginate(12);
+        $data1 = $request->data ?? 0;
+        $subjectData = DB::table('subjects')->get();
+        if($data1 == 0){
+            $data = DB::table('videos')->paginate(12);
+        }else{
+            $data = DB::table('videos')->where('subject_id',$data1)->paginate(12);
+        }
         foreach ($data as $each){
             $each->subject = DB::table('subjects')->where('id', $each->subject_id)->first();
         }
 
         return view('manager.subject.video',[
             'title' => 'Quản lý video bài giảng',
-            'data' => $data
+            'data' => $data,
+            'subjects' => $subjectData
         ]);
     }
 

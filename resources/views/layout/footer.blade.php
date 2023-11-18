@@ -27,7 +27,7 @@
                 <h5 class="text-light">Chúng tôi</h5>
 
                 <ul class="list-unstyled ps-0 mb-0 mt-3">
-                    <li class="mt-2"><a href="javascript: void(0);" class="text-light text-opacity-50">Về chúng tôi</a></li>
+                    <li class="mt-2"><a href="https://www.utt.edu.vn/" class="text-light text-opacity-50">Về chúng tôi</a></li>
                     <li class="mt-2"><a href="javascript: void(0);" class="text-light text-opacity-50">Tài liệu</a></li>
                     <li class="mt-2"><a href="javascript: void(0);" class="text-light text-opacity-50">Bài viết</a></li>
                 </ul>
@@ -38,9 +38,9 @@
                 <h5 class="text-light">Hệ thống</h5>
 
                 <ul class="list-unstyled ps-0 mb-0 mt-3">
-                    <li class="mt-2"><a href="javascript: void(0);" class="text-light text-opacity-50">Các môn học</a></li>
-                    <li class="mt-2"><a href="javascript: void(0);" class="text-light text-opacity-50">Video bài giảng</a></li>
-                    <li class="mt-2"><a href="javascript: void(0);" class="text-light text-opacity-50">Bài thi</a></li>
+                    <li class="mt-2"><a href="/subjects" class="text-light text-opacity-50">Các môn học</a></li>
+                    <li class="mt-2"><a href="/videos" class="text-light text-opacity-50">Video bài giảng</a></li>
+                    <li class="mt-2"><a href="/exam" class="text-light text-opacity-50">Bài thi</a></li>
                 </ul>
             </div>
 

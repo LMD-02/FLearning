@@ -18,7 +18,7 @@
             <!-- left menu -->
             <ul class="navbar-nav me-auto align-items-center" style="flex:3">
                 <li class="nav-item mx-lg-1">
-                    <a class="nav-link active" href="">Home</a>
+                    <a class="nav-link active" href="/">Home</a>
                 </li>
                 @foreach($subject as $key => $value)
                     @if($key >=5 )
@@ -57,7 +57,7 @@
                         <a class="nav-link dropdown-toggle arrow-none nav-user px-2 bg-dark border-0"
                             href="#" role="button" id="profile-user-login" >
                                     <span class="account-user-avatar">
-                                        <img src="{{asset(auth()->user()->avatar)}}" alt="user-image" width="32"
+                                        <img src="{{'images/upload/'.auth()->user()->avatar}}" alt="user-image" width="32"
                                              class="rounded-circle">
                                     </span>
                                     <span class="d-lg-flex flex-column gap-1 d-none">

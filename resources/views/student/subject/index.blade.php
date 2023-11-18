@@ -72,6 +72,7 @@
                                                         <a href="{{route('student.session',['id' => $item->id])}}" class="p-2">{{$item->name}}</a>
                                                     </li>
                                                 @endforeach
+
                                             </ul>
                                         </li>
                                     </ul>

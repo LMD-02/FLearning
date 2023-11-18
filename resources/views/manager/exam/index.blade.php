@@ -11,11 +11,14 @@
                         <div class="form-group d-flex">
                             <div class="input-group mb-3 w-15 mr-3">
                                 <label for="select-course">Tìm kiếm</label>
-                                <select class="custom-select select-filter-course" id="select-course" name="course">
-                                    <option selected>All...</option>
-                                    <option>
-                                        Cơ sở dữ liệu
-                                    </option>
+                                <select class="custom-select select-filter-course" id="select-course" name="data">
+                                    <option value="0" selected>All...</option>
+                                    @foreach($subjects as $item)
+                                        <option value="{{$item->id}}" {{request()->get('data') == $item->id ? 'selected' : ''}}>
+                                            {{$item->name}}
+                                        </option>
+                                    @endforeach
+
                                 </select>
                             </div>
                             <div class="float-right col">
@@ -79,11 +82,11 @@
         <script>
             $('#select-course').select2();
 
-            // $(document).ready(async function() {
-            //     $('.select-filter-course, .select-filter-student,.select-filter-major').change(function(){
-            //         $('#form-filter').submit();
-            //     });
-            // });
+            $(document).ready(async function() {
+                $('.select-filter-course, .select-filter-student,.select-filter-major').change(function(){
+                    $('#form-filter').submit();
+                });
+            });
         </script>
     @endpush
 @endsection()

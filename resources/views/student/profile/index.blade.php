@@ -32,7 +32,7 @@
                     <div class="col-xl-4 col-lg-5">
                         <div class="card text-center">
                             <div class="card-body">
-                                <img src="{{auth()->user()->avatar}}" class="rounded-circle avatar-lg img-thumbnail"
+                                <img src="{{'images/upload/'.auth()->user()->avatar}}" class="rounded-circle avatar-lg img-thumbnail"
                                      alt="profile-image">
 
                                 <h4 class="mb-0 mt-2">{{auth()->user()->name}}</h4>
@@ -158,6 +158,10 @@
 
 
                                                         </div> <!-- end col -->
+                                                        <div class="row mb-3">
+                                                            <label for="example-image" class="col-md-3 col-form-label">Ảnh đại diện</label>
+                                                            <input type="file" alt="ảnh" accept="image/png, image/jpeg, image/gif"  class="col-md-9" name="image">
+                                                        </div>
                                                     </div> <!-- end row -->
 
                                                     <ul class="pager wizard mb-0 list-inline">
@@ -229,12 +233,15 @@
     @push('js')
         <script>
             $('.js-profile-btn').click(function () {
-                let $data = $('#form-profile-edit').serialize();
+                let $form = $('#form-profile-edit')[0];
+                let $data = new FormData($form);
                 let $url = "{{route('student.profile.update')}}";
                 $.ajax({
                     url: $url,
                     type: 'POST',
                     data: $data,
+                    processData: false,  // Important: Don't process the data
+                    contentType: false,  // Important: Don't set content type
                     success: function ($res){
                         if($res.status == 1) {
                             $.toast({

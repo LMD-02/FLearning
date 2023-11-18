@@ -10,16 +10,32 @@ use Illuminate\Support\Facades\Mail;
 class CommendController extends Controller
 {
     public function index(Request $request){
-        $user = DB::table('table_commends')->paginate(12);
-        foreach ($user as $each){
-            $each->user = DB::table('users')->where('id', $each->user_id)->first();
-            $each->session = DB::table('sessions')->where('id', $each->session_id)->first();
-            $each->chapter = DB::table('chapters')->where('id', $each->session->chapter_id)->first();
-            $each->subject = DB::table('subjects')->where('id', $each->chapter->subject_id)->first();
+        $data = 0;
+        $session = DB::table('sessions')->get();
+        if($request->data){
+            $data = $request->data;
+        }
+        if($data == 0){
+            $user = DB::table('table_commends')->paginate(12);
+            foreach ($user as $each){
+                $each->user = DB::table('users')->where('id', $each->user_id)->first();
+                $each->session = DB::table('sessions')->where('id', $each->session_id)->first();
+                $each->chapter = DB::table('chapters')->where('id', $each->session->chapter_id)->first();
+                $each->subject = DB::table('subjects')->where('id', $each->chapter->subject_id)->first();
+            }
+        }else{
+            $user = DB::table('table_commends')->where('session_id',$data)->paginate(12);
+            foreach ($user as $each){
+                $each->user = DB::table('users')->where('id', $each->user_id)->first();
+                $each->session = DB::table('sessions')->where('id', $each->session_id)->first();
+                $each->chapter = DB::table('chapters')->where('id', $each->session->chapter_id)->first();
+                $each->subject = DB::table('subjects')->where('id', $each->chapter->subject_id)->first();
+            }
         }
         return view('manager.user.command',[
             'title' => 'Quản lý bình luận',
-            'data' => $user
+            'data' => $user,
+            'sessionData' => $session
         ]);
     }
 

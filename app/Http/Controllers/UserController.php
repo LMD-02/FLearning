@@ -8,10 +8,22 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     public function index(Request $request){
-        $user = DB::table('users')->where('role','!=',1)->paginate(12);
+
+        $data = 0;
+        if($request->data){
+            $data = $request->data;
+        }
+        $userData = DB::table('users')->where('role','!=',1)->get();
+
+        if($data == 0){
+            $user = DB::table('users')->where('role','!=',1)->paginate(12);
+        }else{
+            $user = DB::table('users')->where('id',$data)->paginate(12);
+        }
         return view('manager.user.index',[
             'title' => 'Quản lý người dùng',
-            'data' => $user
+            'data' => $user,
+            'userData' => $userData
         ]);
     }
 
