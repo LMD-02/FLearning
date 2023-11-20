@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 
 use App\Mail\ForgotEmail;
+use DateTime;
 use http\Env\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -133,6 +135,13 @@ class AuthController extends Controller
         if ($birthday == null)
         {
             return redirect()->route('register', ['errors' => 'Ngày sinh không được để trống']);
+        }else{
+            $birthdayDate = Carbon::parse($birthday);
+            $currentDate = Carbon::now();
+            if ($birthdayDate->gt($currentDate)) {
+                return redirect()->route('register', ['errors' => 'Ngày sinh không hợp lệ']);
+            }
+
         }
 
         DB::table('users')->insert([

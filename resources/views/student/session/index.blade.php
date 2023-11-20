@@ -172,7 +172,7 @@
     @push('js')
     <script>
         $('.js-send-comments').click(function (e) {
-            let $item = $('.js-auth-check').length();
+            let $item = $('.js-auth-check').length;
             if($item == 0) {
                 return false;
             }else{

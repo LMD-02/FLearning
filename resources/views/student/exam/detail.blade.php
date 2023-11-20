@@ -20,7 +20,7 @@
 
 
                 <div class="row">
-                    <div class="col-xxl-8 col-lg-8">
+                    <div class="col-xxl-12 col-lg-12">
                         <!-- project card -->
                         <div class="card d-block">
                             <form action="{{route('student.exam.check',['id'=>$data->id])}}" method="post">
@@ -57,7 +57,7 @@
                                         </div>
                                     @endforeach
                                     <div class="d-flex justify-content-center mt-5">
-                                        <button class="btn btn-success">Nộp bài</button>
+                                        <button class="btn btn-success js-nopbai">Nộp bài</button>
 
                                     </div>
                                 </div>
@@ -74,70 +74,70 @@
                         <!-- end card-->
                     </div>
 
-                    <div class="col-lg-4 col-xxl-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title mb-3">Các bài khác</h5>
-                                <div dir="ltr">
-                                    <div class="card mb-1 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
-                                                            <span class="avatar-title rounded" style="    background-color: rgb(66,210,157);">
-                                                                Exam
-                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu về hệ csdl</a>
-                                                </div>
+{{--                    <div class="col-lg-4 col-xxl-4">--}}
+{{--                        <div class="card">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <h5 class="card-title mb-3">Các bài khác</h5>--}}
+{{--                                <div dir="ltr">--}}
+{{--                                    <div class="card mb-1 shadow-none border">--}}
+{{--                                        <div class="p-2">--}}
+{{--                                            <div class="row align-items-center">--}}
+{{--                                                <div class="col-auto">--}}
+{{--                                                    <div class="avatar-sm">--}}
+{{--                                                            <span class="avatar-title rounded" style="    background-color: rgb(66,210,157);">--}}
+{{--                                                                Exam--}}
+{{--                                                            </span>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col ps-0">--}}
+{{--                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu về hệ csdl</a>--}}
+{{--                                                </div>--}}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card mb-1 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
-                                                            <span class="avatar-title rounded" style="    background-color: rgb(66,210,157);">
-                                                                Exam
-                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu về hệ csdl</a>
-                                                </div>
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="card mb-1 shadow-none border">--}}
+{{--                                        <div class="p-2">--}}
+{{--                                            <div class="row align-items-center">--}}
+{{--                                                <div class="col-auto">--}}
+{{--                                                    <div class="avatar-sm">--}}
+{{--                                                            <span class="avatar-title rounded" style="    background-color: rgb(66,210,157);">--}}
+{{--                                                                Exam--}}
+{{--                                                            </span>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col ps-0">--}}
+{{--                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu về hệ csdl</a>--}}
+{{--                                                </div>--}}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card mb-1 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
-                                                            <span class="avatar-title rounded" style="    background-color: rgb(66,210,157);">
-                                                                Exam
-                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu về hệ csdl</a>
-                                                </div>
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="card mb-1 shadow-none border">--}}
+{{--                                        <div class="p-2">--}}
+{{--                                            <div class="row align-items-center">--}}
+{{--                                                <div class="col-auto">--}}
+{{--                                                    <div class="avatar-sm">--}}
+{{--                                                            <span class="avatar-title rounded" style="    background-color: rgb(66,210,157);">--}}
+{{--                                                                Exam--}}
+{{--                                                            </span>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col ps-0">--}}
+{{--                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu về hệ csdl</a>--}}
+{{--                                                </div>--}}
 
-                                            </div>
-                                        </div>
-                                    </div>
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-->
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <!-- end card-->--}}
 
 
-                    </div>
+{{--                    </div>--}}
                 </div>
                 <!-- end row-->
 
@@ -149,4 +149,17 @@
 
 
     </div>
+    @push('js')
+        <script>
+            $('.js-nopbai').click(function(e) {
+                e.preventDefault();
+                var isConfirmed = confirm("Bạn có chắc chắn muốn submit form?");
+
+                // Nếu người dùng chọn "OK", submit form
+                if (isConfirmed) {
+                    $(this).closest('form').submit();
+                }
+            })
+        </script>
+    @endpush
 @endsection()

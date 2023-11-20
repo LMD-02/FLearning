@@ -335,7 +335,7 @@ Route::group(['prefix' => 'admin'], function ()
         {
             return redirect()->route('student.welcome');
         }
-        $userCount = DB::table('users')->where('role', 1)->count();
+        $userCount = DB::table('users')->where('role', '!=',1)->count();
         $subject   = DB::table('subjects')->count();
         $test      = DB::table('exams')->count();
         $video     = DB::table('videos')->count();

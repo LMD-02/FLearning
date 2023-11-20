@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class ReportController extends Controller
 {
     public function index(Request $request){
-        $user = DB::table('reports')->paginate(12);
+        $user = DB::table('reports')->latest()->paginate(12);
         return view('manager.user.report',[
             'title' => 'Quản lý phản hồi',
             'data' => $user
