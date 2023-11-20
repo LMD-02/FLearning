@@ -93,6 +93,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-3">Các bài khác</h5>
                                 <div dir="ltr">
+                                    @foreach($more as $key => $value)
                                     <div class="card mb-1 shadow-none border">
                                         <div class="p-2">
                                             <div class="row align-items-center">
@@ -100,56 +101,19 @@
                                                     <div class="avatar-sm">
                                                             <span class="avatar-title rounded"
                                                                   style="    background-color: rgb(66,210,157);">
-                                                                Bài 2
+                                                                File
                                                             </span>
                                                     </div>
                                                 </div>
                                                 <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu
-                                                        về hệ csdl</a>
+                                                    <a href="{{route('student.session',['id' => $value->id])}}" class="text-muted fw-bold">{{$value->name}}</a>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card mb-1 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
-                                                            <span class="avatar-title rounded"
-                                                                  style="    background-color: rgb(66,210,157);">
-                                                                Bài 2
-                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu
-                                                        về hệ csdl</a>
-                                                </div>
+                                    @endforeach
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card mb-1 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
-                                                            <span class="avatar-title rounded"
-                                                                  style="    background-color: rgb(66,210,157);">
-                                                                Bài 2
-                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Giới thiệu
-                                                        về hệ csdl</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>

@@ -34,6 +34,7 @@
                         <thead>
                         <tr>
                             <th>#</th>
+                            <th>Ảnh đại diện</th>
                             <th style="width:20%">Tiêu đề video</th>
                             <th style="width:20%" >Môn học</th>
                             <th >link</th>
@@ -49,6 +50,9 @@
                                     <a href="">
                                         {{$key+1}}
                                     </a>
+                                </td>
+                                <td style="width:15%">
+                                    <img src="{{asset('images/upload/'.$item->image)}}" alt="demo-img" style="width:120px; height: 120px; object-fit: contain; background: white" class="img-fluid shadow-sm rounded">
                                 </td>
                                 <td style="color:green">
                                     {{$item->name}}

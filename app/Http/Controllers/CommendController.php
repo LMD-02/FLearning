@@ -11,12 +11,18 @@ class CommendController extends Controller
 {
     public function index(Request $request){
         $data = 0;
-        $session = DB::table('sessions')->get();
+        $searchText = '';
+        if(isset($request->textSearch))
+        {
+            $searchText = $request->textSearch;
+        }
+            $session = DB::table('sessions')->get();
         if($request->data){
             $data = $request->data;
         }
         if($data == 0){
-            $user = DB::table('table_commends')->paginate(12);
+            $user = DB::table('table_commends')->latest()->where('content', 'like', '%' . $searchText . '%')->paginate(12);
+
             foreach ($user as $each){
                 $each->user = DB::table('users')->where('id', $each->user_id)->first();
                 $each->session = DB::table('sessions')->where('id', $each->session_id)->first();
@@ -24,7 +30,7 @@ class CommendController extends Controller
                 $each->subject = DB::table('subjects')->where('id', $each->chapter->subject_id)->first();
             }
         }else{
-            $user = DB::table('table_commends')->where('session_id',$data)->paginate(12);
+            $user = DB::table('table_commends')->latest()->where('content', 'like', '%' . $searchText . '%')->paginate(12);
             foreach ($user as $each){
                 $each->user = DB::table('users')->where('id', $each->user_id)->first();
                 $each->session = DB::table('sessions')->where('id', $each->session_id)->first();

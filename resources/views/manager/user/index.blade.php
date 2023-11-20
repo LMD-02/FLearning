@@ -9,19 +9,27 @@
                 <div class="card-header " >
                     <form id="form-filter">
                         <div class="form-group d-flex">
-                            <div class="input-group mb-3 w-15 mr-3">
-                                <label for="select-course">Tìm kiếm</label>
-                                <select class="custom-select select-filter-course" id="select-course" name="data" >
-                                    <option value="0" selected>All...</option>
-                                    @foreach($userData as $item)
-                                        <option value="{{$item->id}}" {{request()->get('data') == $item->id ? 'selected' : ''}}>
-                                            {{$item->name}}
-                                        </option>
-                                    @endforeach
-
-
-                                </select>
+                            <div class="input-group mb-3 w-50 mr-5">
+                                <form action="{{route('admin.user.command')}}" method="get">
+                                    <label class="d-flex w-100" for="search_txt">Tìm kiếm
+                                    </label>
+                                    <input id="search_txt" type="text" placeholder="tìm kiếm" class="form-control" name="textSearch" value="{{request()->get('textSearch')}}">
+                                    <button class="btn btn-primary">Tìm kiếm</button>
+                                </form>
                             </div>
+{{--                            <div class="input-group mb-3 w-15" style="margin-left:auto">--}}
+{{--                                <label for="select-course">Tìm kiếm</label>--}}
+{{--                                <select class="custom-select select-filter-course" id="select-course" name="data" >--}}
+{{--                                    <option value="0" selected>All...</option>--}}
+{{--                                    @foreach($userData as $item)--}}
+{{--                                        <option value="{{$item->id}}" {{request()->get('data') == $item->id ? 'selected' : ''}}>--}}
+{{--                                            {{$item->name}}--}}
+{{--                                        </option>--}}
+{{--                                    @endforeach--}}
+
+
+{{--                                </select>--}}
+{{--                            </div>--}}
                                                         <div class="float-right col">
                                                             <a href="{{route('admin.user.create')}}" id="btn-create-classe" class="btn btn-success float-right">
                                                                 Tạo người dùng

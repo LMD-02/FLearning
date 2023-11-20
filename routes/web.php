@@ -64,12 +64,17 @@ Route::get('/subjects', function (Request $request)
 })->name('student.subjects');
 Route::get('/videos', function (Request $request)
 {
-
+    $paginate = 4;
+    if(isset($request->data)){
+        $subject = DB::table('subjects')->where('status', 0)->where('id',$request->data)->get();
+        $paginate = 20;
+    }else{
+        $subject = DB::table('subjects')->where('status', 0)->get();
+    }
     $videos  = DB::table('videos')->get();
-    $subject = DB::table('subjects')->where('status', 0)->get();
     foreach ($subject as $each)
     {
-        $each->videos = DB::table('videos')->where('subject_id', $each->id)->paginate(4);
+        $each->videos = DB::table('videos')->where('subject_id', $each->id)->paginate($paginate);
     }
     return view('student.video.index', [
         'subject' => $subject,
@@ -81,9 +86,12 @@ Route::get('/video/detail', function (Request $request)
 {
     $video   = DB::table('videos')->where('id', $request->id)->first();
     $subject = DB::table('subjects')->where('status', 0)->get();
+    $another = DB::table('videos')->where('subject_id', $video->subject_id)->where('id', '!=', $video->id)->get();
+
     return view('student.video.detail', [
         'subject' => $subject,
-        'video'   => $video
+        'video'   => $video,
+        'more'    => $another
     ]);
 })->name('student.video.detail');
 
@@ -212,13 +220,15 @@ Route::get('/session', function (Request $request)
     }
     $subject           = DB::table('subjects')->where('status', 0)->get();
     $session           = DB::table('sessions')->where('id', $request->id)->first();
+    $another = DB::table('sessions')->where('chapter_id', $session->chapter_id)->where('id', '!=', $session->id)->get();
     $session->chapeter = DB::table('chapters')->where('id', $session->chapter_id)->first();
     $session->subject  = DB::table('subjects')->where('id', $session->chapeter->subject_id)->first();
     return view('student.session.index', [
         'subject'   => $subject,
         'session'   => $session,
         'favourite' => $favourite ?? null,
-        'comments'  => $comments ?? null
+        'comments'  => $comments ?? null,
+        'more'     =>  $another ?? null,
     ]);
 })->name('student.session');
 

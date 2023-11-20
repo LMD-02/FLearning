@@ -37,24 +37,26 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-3">Các video khác</h5>
                                 <div dir="ltr">
-                                    <div class="card mb-1 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
+                                    @foreach($more as $key => $value)
+                                        <div class="card mb-1 shadow-none border">
+                                            <div class="p-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="avatar-sm">
                                                             <span class="avatar-title rounded"
                                                                   style="    background-color: rgb(66,210,157);">
-                                                                .MP4
+                                                                File
                                                             </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">Bài giảng về SQL</a>
-                                                </div>
+                                                    <div class="col ps-0">
+                                                        <a href="{{route('student.video.detail',['id' => $value->id])}}" class="text-muted fw-bold">{{$value->name}}</a>
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
 
                                 </div>
                             </div>

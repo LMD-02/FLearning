@@ -64,8 +64,7 @@
             <div class="card">
                 <div class="d-flex card-header justify-content-between align-items-center">
                     <h4 class="header-title">Bài test gần đây</h4>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-light">Export <i
-                            class="mdi mdi-download ms-1"></i></a>
+
                 </div>
 
                 <div class="card-body pt-0">

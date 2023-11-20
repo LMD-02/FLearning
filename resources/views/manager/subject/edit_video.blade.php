@@ -19,6 +19,11 @@
                         <input type="text" value="{{$data->link}}" name="link" id="" class="form-control">
                     </div>
                     <div class="mb-3">
+                        <label for="example-image" class="form-label">Ảnh tiêu đề: {{$data->image}} </label>
+                        <input type="file" alt="ảnh"  accept="image/png, image/jpeg, image/gif"
+                               name="image">
+                    </div>
+                    <div class="mb-3">
                         <label for="example-image" class="form-label">Môn học</label>
                         <select name="subject" class="form-control">
                             @foreach($subject as $key => $value)

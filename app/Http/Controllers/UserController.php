@@ -10,13 +10,19 @@ class UserController extends Controller
     public function index(Request $request){
 
         $data = 0;
+        $searchText = '';
+
+        if(isset($request->textSearch))
+        {
+            $searchText = $request->textSearch;
+        }
         if($request->data){
             $data = $request->data;
         }
         $userData = DB::table('users')->where('role','!=',1)->get();
 
         if($data == 0){
-            $user = DB::table('users')->where('role','!=',1)->paginate(12);
+            $user = DB::table('users')->where('role','!=',1)->where('name', 'like', '%' . $searchText . '%')->paginate(12);
         }else{
             $user = DB::table('users')->where('id',$data)->paginate(12);
         }

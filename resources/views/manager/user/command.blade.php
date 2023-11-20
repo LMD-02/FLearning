@@ -9,7 +9,15 @@
                 <div class="card-header ">
                     <form id="form-filter">
                         <div class="form-group d-flex">
-                            <div class="input-group mb-3 w-15 mr-3">
+                            <div class="input-group mb-3 w-50 mr-5">
+                                <form action="{{route('admin.user.command')}}" method="get">
+                                    <label class="d-flex w-100" for="search_txt">Tìm kiếm
+                                    </label>
+                                    <input id="search_txt" type="text" placeholder="tìm kiếm" class="form-control" name="textSearch" value="{{request()->get('textSearch')}}">
+                                    <button class="btn btn-primary">Tìm kiếm</button>
+                                </form>
+                            </div>
+                            <div class="input-group mb-3 w-15" style="margin-left:auto">
                                 <label for="select-course">Theo buổi học</label>
                                 <select class="custom-select select-filter-course" id="select-course" name="data" >
                                     <option value="0" selected>All...</option>
@@ -18,10 +26,9 @@
                                             {{$item->name}}
                                         </option>
                                     @endforeach
-
-
                                 </select>
                             </div>
+
                             {{--                            <div class="float-right col">--}}
                             {{--                                <a href="" id="btn-create-classe" class="btn btn-success float-right">--}}
                             {{--                                    Tạo sinh viên--}}

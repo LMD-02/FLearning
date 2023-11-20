@@ -38,11 +38,16 @@ class VideoController extends Controller
         $name = $request->get('name');
         $link = $request->get('link');
         $subject_id = $request->get('subject');
-
+        if(request()->has('image')) {
+            $image = request()->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images/upload'), 'images/upload/'.$imageName);
+        }
         $arr = [
             'name' => $name,
             'link' => $link,
             'subject_id' => $subject_id,
+            'image' => $imageName,
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -79,14 +84,30 @@ class VideoController extends Controller
         $name = $request->get('name');
         $link = $request->get('link');
         $subject_id = $request->get('subject');
+        if (request()->has('image'))
+        {
+            $image     = request()->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/upload'), 'images/upload/' . $imageName);
+            $arr = [
+                'name' => $name,
+                'link' => $link,
+                'subject_id' => $subject_id,
+                'image' => $imageName,
+                'updated_at' => now(),
+            ];
+            DB::table('videos')->where('id', $id)->update($arr);
+            return redirect()->route('admin.subject.video');
+        }else{
+            $arr = [
+                'name' => $name,
+                'link' => $link,
+                'subject_id' => $subject_id,
+                'updated_at' => now(),
+            ];
+            DB::table('videos')->where('id', $id)->update($arr);
+            return redirect()->route('admin.subject.video');
+        }
 
-        $arr = [
-            'name' => $name,
-            'link' => $link,
-            'subject_id' => $subject_id,
-            'updated_at' => now(),
-        ];
-        DB::table('videos')->where('id', $id)->update($arr);
-        return redirect()->route('admin.subject.video');
     }
 }
