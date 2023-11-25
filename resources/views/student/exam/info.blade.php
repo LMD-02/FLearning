@@ -48,11 +48,10 @@
                                 <strong>Kết quả của bạn:</strong><br>
                                 {{$info}}
                                 <br>
-
                             </div> <!-- end card-body-->
                             <div class="d-flex justify-content-center mt-3">
                                 <a class="btn btn-primary" style="margin-right:10px"
-                                   href="{{route('student.exam.detail')}}">Thử lại</a>
+                                   href="{{route('student.exam.detail',['id'=>$data->id])}}">Thử lại</a>
                                 <a class="btn btn-info" href="{{route('student.exam')}}">Làm bài khác</a>
 
                             </div>

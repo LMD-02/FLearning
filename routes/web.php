@@ -291,7 +291,7 @@ Route::post('/exam/check', function (Request $request)
     $numberCorrect = 0;
     foreach ($exam['data'] as $key => $question)
     {
-        if ($question['c'] == $request['q' . $key])
+        if ($question['c'] == $request['q' . ($key+1)])
         {
             $numberCorrect++;
         }
@@ -323,6 +323,7 @@ Route::post('/exam/check', function (Request $request)
         'info'        => $last,
         'subject'     => $subject,
         'topStudents' => $topStudents,
+        'data' => $data
     ]);
 })->name('student.exam.check');
 
